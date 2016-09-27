@@ -29,6 +29,9 @@ class TVDBClient:
         if self._token is not None:
             return self._token
 
+        return self._generate_token()
+
+    def _generate_token(self):
         url = self.login_url
         headers = {
             'Content-Type': 'application/json',
