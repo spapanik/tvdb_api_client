@@ -13,6 +13,7 @@ __pycache__/
 # dist outpout
 MANIFEST
 dist/
+build/
 
 # tests
 .cache/
