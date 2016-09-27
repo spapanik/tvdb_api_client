@@ -1,0 +1,18 @@
+# editors
+.*.swp
+*~
+\#*\#
+.idea
+
+# python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+
+# dist outpout
+MANIFEST
+dist/
+
+# tests
+.cache/
