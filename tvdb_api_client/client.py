@@ -26,12 +26,27 @@ class TVDBClient:
 
     @property
     def token(self):
+        """
+        Get the latest saved token.
+
+        If there is no saved token in memory or in cache,
+        generate a new one.
+        :rtype: str
+        """
         if self._token is not None:
             return self._token
 
         return self._generate_token()
 
     def _generate_token(self):
+        """
+        Generate a new token
+
+        This should be used only once, as after the user gets their
+        initial token, it can and should just be refreshed.
+        :raise: ConnectionError
+        :rtype: str
+        """
         url = self.login_url
         headers = {
             'Content-Type': 'application/json',
@@ -53,11 +68,24 @@ class TVDBClient:
         return token
 
     def _update_token(self):
+        """Update the token as a side-effect"""
         token = self._get_data(self.update_token_url).get('token')
         self.cache.set(self.cache_key, token)
         self._token = token
 
     def _get_data(self, url, *, _allow_update=True):
+        """
+        Get the data from a specific endpoint
+
+        The purpose of this method is to avoid the boilerplate involved
+        in making the request and decoding the response
+        :type url: str
+        :type _allow_update: bool
+        :param _allow_update: If set to True, it will retry to update the
+            token in case of a 401 response
+        :rtype: dict[str]
+        :raise: LookupError
+        """
         token = self.token
         headers = {
             'Accept': 'application/json',
@@ -77,15 +105,33 @@ class TVDBClient:
         raise LookupError("Couldn't retrieve any data for this term.")
 
     def get_tvdb_id(self, imdb_id):
+        """
+        Get the tvdb id of a series given its imdb id
+
+        :type imdb_id: str
+        :rtype: str
+        """
         url = self.search_url.format(imdb_id=imdb_id)
         return self._get_data(url)['data'][0]['id']
 
     def get_imdb_id(self, tvdb_id):
+        """
+        Get the imdb id of a series given its tvdb id
+
+        :type tvdb_id: str
+        :rtype: str
+        """
         url = self.series_tvdb_url.format(tvdb_id=tvdb_id)
         info = self._get_data(url)['data']
         return info['imdbId']
 
     def find_series_by_name(self, series_name):
+        """
+        Find all series that match a series name
+
+        :type series_name: str
+        :rtype: list[dict]
+        """
         url = self.tvdb_series_info_url.format(series_name=series_name)
         info = self._get_data(url)['data']
         information = [{
@@ -96,6 +142,13 @@ class TVDBClient:
         return information
 
     def get_episodes(self, tvdb_id):
+        """
+        Get all the episodes for a series
+
+        :param tvdb_id: The tvdb id of the series
+        :type tvdb_id: str
+        :rtype: list[dict]
+        """
         base_url = self.episodes_url.format(tvdb_id=tvdb_id)
         full_data = self._get_data(base_url)
         data = full_data['data']
