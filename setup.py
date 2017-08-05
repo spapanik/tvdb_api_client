@@ -1,7 +1,7 @@
 from setuptools import setup
 
 PKG_NAME = 'tvdb_api_client'
-__version__ = '0.0.0a1'
+__version__ = '0.0.1'
 
 
 def listify(filename):
@@ -27,6 +27,8 @@ setup(
         pkg_name=PKG_NAME,
         ver=__version__,
     ),
+    install_requires=listify('requirements.txt'),
+    tests_require=listify('requirements_test.txt'),
     keywords=listify('KEYWORDS.txt'),
     classifiers=listify('CLASSIFIERS.txt'),
 )
