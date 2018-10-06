@@ -26,6 +26,7 @@ setup(
     author_email='spapanik21@gmail.com',
     url=f'https://github.com/{__author__}/{PKG_NAME}',
     download_url='https://github.com/{__author__}/{PKG_NAME}/tarball/{__version__}',
+    python_requires='>=3.6',
     install_requires=listify('requirements_install.txt'),
     tests_require=listify('requirements_test.txt'),
     keywords=listify('KEYWORDS.txt'),
