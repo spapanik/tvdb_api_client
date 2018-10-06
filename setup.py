@@ -6,11 +6,6 @@ __license__ = "license"
 PKG_NAME = "tvdb_api_client"
 
 
-def listify(filename):
-    with open(filename) as f:
-        return [line.strip() for line in f.readlines()]
-
-
 def contents(filename):
     with open(filename) as f:
         return f.read()
@@ -22,7 +17,7 @@ setup(
     version=__version__,
     description="A python client for TVDB rest API",
     license=__license__,
-    long_description=contents("README.txt"),
+    long_description=contents("readme.md"),
     author="Stephanos Papanikolopoulos",
     author_email="spapanik21@gmail.com",
     url=f"https://github.com/{__author__}/{PKG_NAME}",
