@@ -1,7 +1,7 @@
 import os
 import re
 
-_valid_format = re.compile('[^:]+:[^:]+:[^:]+')
+_valid_format = re.compile("[^:]+:[^:]+:[^:]+")
 
 
 def _valid_line(line):
@@ -11,7 +11,7 @@ def _valid_line(line):
     A line is valid if it isn't a comment (comment are python style),
     and it is of the form "username:userkey:apikey".
     """
-    if line.startswith('#'):
+    if line.startswith("#"):
         return False
 
     return re.fullmatch(_valid_format, line)
@@ -29,5 +29,5 @@ def get_secrets_from_file(secrets):
         return None
 
     for line in _valid_lines(secrets):
-        username, userkey, apikey = line.split(':')
+        username, userkey, apikey = line.split(":")
         return username, userkey, apikey
