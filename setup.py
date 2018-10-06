@@ -28,8 +28,12 @@ setup(
     url=f"https://github.com/{__author__}/{PKG_NAME}",
     download_url="https://github.com/{__author__}/{PKG_NAME}/tarball/{__version__}",
     python_requires=">=3.6",
-    install_requires=listify("requirements_install.txt"),
-    tests_require=listify("requirements_test.txt"),
-    keywords=listify("KEYWORDS.txt"),
-    classifiers=listify("CLASSIFIERS.txt"),
+    install_requires=["requests>=2.0.0,<2.19.0"],
+    tests_require=["pytest>=3.0.0,<=3.4.0"],
+    keywords=["tvdb", "imdb", "tv series"],
+    classifiers=[
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 3 :: Only",
+    ],
 )
