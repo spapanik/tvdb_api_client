@@ -26,11 +26,12 @@ setup(
     url=PKG_URL,
     download_url=f"{PKG_URL}/tarball/{__version__}",
     python_requires=">=3.6",
-    install_requires=["requests>=2.0.0,<2.19.0"],
+    install_requires=["requests>=2.0.0,<3.0.0"],
     keywords=["tvdb", "imdb", "tv series"],
     classifiers=[
         "Development Status :: 4 - Beta",
         "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
         "Programming Language :: Python :: 3 :: Only",
     ],
 )

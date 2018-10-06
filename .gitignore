@@ -5,6 +5,3 @@ requirements.txt
 # dist outpout
 dist/
 build/
-
-# tests
-.cache/

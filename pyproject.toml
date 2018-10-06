@@ -3,10 +3,10 @@ line-length = 79
 py36 = true
 
 [tool.poetry]
-name = "pygatherer"
-version = "0.0.1"
+name = "tvdb_api_client"
+version = "0.1.5"
 description = "A python client for TVDB rest API"
-authors = ["Steph Papanik <spapanik21@gmail.com>"]
+authors = ["spapanik <spapanik21@gmail.com>"]
 license = "MIT"
 
 [tool.poetry.dependencies]
@@ -16,4 +16,3 @@ requests = "^2.0"
 
 [tool.poetry.dev-dependencies]
 black = "^18.0"
-pytest = "^3.0"
