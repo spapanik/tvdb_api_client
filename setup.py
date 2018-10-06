@@ -20,6 +20,8 @@ setup(
     long_description=contents("readme.md"),
     author="Stephanos Papanikolopoulos",
     author_email="spapanik21@gmail.com",
+    packages=find_packages("src"),
+    package_dir={"": "src"},
     url=f"https://github.com/{__author__}/{PKG_NAME}",
     download_url="https://github.com/{__author__}/{PKG_NAME}/tarball/{__version__}",
     python_requires=">=3.6",
