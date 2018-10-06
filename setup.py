@@ -1,7 +1,7 @@
 from setuptools import setup
 
 __author__ = "spapanik"
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __license__ = "license"
 PKG_NAME = "tvdb_api_client"
 
