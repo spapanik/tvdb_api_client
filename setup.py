@@ -1,7 +1,9 @@
 from setuptools import setup
 
-PKG_NAME = 'tvdb_api_client'
+__author__ = 'spapanik'
 __version__ = '0.1.0'
+__license__ = 'license'
+PKG_NAME = 'tvdb_api_client'
 
 
 def listify(filename):
@@ -18,16 +20,13 @@ setup(
     packages=[PKG_NAME],
     version=__version__,
     description='A python client for TVDB rest API',
-    license='MIT',
+    license=__license__,
     long_description=contents('README.txt'),
     author='Stephanos Papanikolopoulos',
     author_email='spapanik21@gmail.com',
-    url='https://github.com/spapanik/{pkg_name}'.format(pkg_name=PKG_NAME),
-    download_url='https://github.com/spapanik/{pkg_name}/tarball/{ver}'.format(
-        pkg_name=PKG_NAME,
-        ver=__version__,
-    ),
-    install_requires=listify('requirements.txt'),
+    url=f'https://github.com/{__author__}/{PKG_NAME}',
+    download_url='https://github.com/{__author__}/{PKG_NAME}/tarball/{__version__}',
+    install_requires=listify('requirements_install.txt'),
     tests_require=listify('requirements_test.txt'),
     keywords=listify('KEYWORDS.txt'),
     classifiers=listify('CLASSIFIERS.txt'),
