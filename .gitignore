@@ -1,6 +1,7 @@
 # python
 __pycache__/
 requirements.txt
+pip-wheel-metadata/
 
 # dist outpout
 dist/
