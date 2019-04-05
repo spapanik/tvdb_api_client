@@ -1,12 +1,10 @@
-.PHONY: black
-
-black:
+.PHONY: format
+format:
 	black .
 
-pyproject.lock: pyproject.toml
+poetry.lock: pyproject.toml
 	poetry lock
 
-requirements.txt: pyproject.lock
-	pip install -U poetry
-	poetry install ${DEV}
+requirements.txt: poetry.lock
+	poetry install $(POETRY_EXTRA)
 	poetry show | awk '{print $$1"=="$$2}' > $@
