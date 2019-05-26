@@ -2,9 +2,14 @@
 line-length = 79
 target-version = ["py36", "py37", "py38"]
 
+[tool.isort]
+line_length = 79
+multi_line_output = 3
+include_trailing_comma = true
+
 [tool.poetry]
 name = "tvdb_api_client"
-version = "0.1.7"
+version = "0.1.8"
 description = "A python client for TVDB rest API"
 authors = ["spapanik <spapanik21@gmail.com>"]
 
@@ -29,3 +34,7 @@ requests = "^2.0"
 
 [tool.poetry.dev-dependencies]
 black = {version = "*", allows-prereleases = true}
+isort = "^4.3"
+
+ipython = "^7.5"
+ipdb = "^0.12"

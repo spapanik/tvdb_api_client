@@ -1,6 +1,7 @@
 .PHONY: format
 format:
 	black .
+	isort -rc .
 
 poetry.lock: pyproject.toml
 	poetry lock

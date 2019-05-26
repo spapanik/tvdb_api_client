@@ -1,8 +1,7 @@
-import os
-import requests
 import json
+import os
 
-from ._secrets import get_secrets_from_file
+import requests
 
 
 class TVDBClient:
@@ -23,17 +22,10 @@ class TVDBClient:
     secrets = os.path.expanduser("~/.config/tvdb-api/secrets")
 
     def __init__(self, cache, **kwargs):
+        self.cache = cache
         self.username = kwargs.get("username")
         self.userkey = kwargs.get("userkey")
         self.apikey = kwargs.get("apikey")
-        secrets = get_secrets_from_file(self.secrets)
-        if secrets is not None:
-            username, userkey, apikey = secrets
-            self.username = self.username or username
-            self.userkey = self.userkey or userkey
-            self.apikey = self.apikey or apikey
-
-        self.cache = cache
         self._token = self.cache.get(self.cache_key)
 
     @property
