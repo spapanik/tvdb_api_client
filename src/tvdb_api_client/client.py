@@ -1,144 +1,135 @@
 import json
-import os
+from typing import List, Union
+from urllib.parse import urljoin
 
 import requests
 
 
 class TVDBClient:
-    cache_key = "tvdb_token"
+    __slots__ = ["_auth_data", "_cache", "_cache_key", "_saved_token", "_urls"]
 
-    tvdb_base_url = "https://api.thetvdb.com"
-    imdb_base_url = "http://www.imdb.com"
-
-    imdb_series_url = imdb_base_url + "/title/{imdb_id}/"
-
-    episodes_url = tvdb_base_url + "/series/{tvdb_id}/episodes"
-    login_url = tvdb_base_url + "/login"
-    search_url = tvdb_base_url + "/search/series?imdbId={imdb_id}"
-    series_tvdb_url = tvdb_base_url + "/series/{tvdb_id}"
-    tvdb_series_info_url = tvdb_base_url + "/search/series?name={series_name}"
-    update_token_url = tvdb_base_url + "/refresh_token"
-
-    secrets = os.path.expanduser("~/.config/tvdb-api/secrets")
-
-    def __init__(self, cache, **kwargs):
-        self.cache = cache
-        self.username = kwargs.get("username")
-        self.userkey = kwargs.get("userkey")
-        self.apikey = kwargs.get("apikey")
-        self._token = self.cache.get(self.cache_key)
+    def __init__(self, username, user_key, api_key, cache):
+        self._auth_data = {
+            "username": username,
+            "userkey": user_key,
+            "apikey": api_key,
+        }
+        self._cache = cache
+        self._cache_key = "tvdb_token"
+        self._saved_token = self._cache.get(self._cache_key)
+        self._urls = self._generate_urls()
 
     @property
-    def token(self):
-        """
-        Get the latest saved token.
+    def _token(self):
+        if self._saved_token is None:
+            self._save_token(self._generate_token())
 
-        If there is no saved token in memory or in cache,
-        generate a new one.
-        :rtype: str
-        """
-        if self._token is not None:
-            return self._token
+        return self._saved_token
 
-        return self._generate_token()
+    @staticmethod
+    def _generate_urls():
+        tvdb_base_url = "https://api.thetvdb.com"
+        urls = {
+            "login": "/login",
+            "refresh_token": "/refresh_token",
+            "search_series": "/search/series",
+            "series": "/series/{id}",
+            "series_episodes": "/series/{id}/episodes",
+        }
+
+        return {key: urljoin(tvdb_base_url, url) for key, url in urls.items()}
+
+    def _save_token(self, token):
+        self._saved_token = token
+        self._cache.set(self._cache_key, token)
 
     def _generate_token(self):
-        """
-        Generate a new token
-
-        This should be used only once, as after the user gets their
-        initial token, it can and should just be refreshed.
-        :raise: ConnectionError
-        :rtype: str
-        """
-        url = self.login_url
+        url = self._urls["login"]
         headers = {
             "Content-Type": "application/json",
             "Accept": "application/json",
         }
-        data = {
-            "apikey": self.apikey,
-            "username": self.username,
-            "userkey": self.userkey,
-        }
 
-        response = requests.post(url, headers=headers, data=json.dumps(data))
+        response = requests.post(
+            url, headers=headers, data=json.dumps(self._auth_data)
+        )
+        if response.status_code == 401:
+            raise ConnectionRefusedError("Invalid credentials.")
+
         if response.status_code != 200:
-            raise ConnectionError("TVDB failed to respond.")
+            raise ConnectionError("Unexpected Response.")
 
-        token = json.loads(response.content.decode("utf-8"))["token"]
-        self.cache.set(self.cache_key, token)
-        self._token = token
-        return token
+        return json.loads(response.content.decode("utf-8"))["token"]
 
-    def _update_token(self):
-        """Update the token as a side-effect"""
-        token = self._get_data(self.update_token_url).get("token")
-        self.cache.set(self.cache_key, token)
-        self._token = token
-
-    def _get_data(self, url, *, _allow_update=True):
-        """
-        Get the data from a specific endpoint
-
-        The purpose of this method is to avoid the boilerplate involved
-        in making the request and decoding the response
-        :type url: str
-        :type _allow_update: bool
-        :param _allow_update: If set to True, it will retry to update the
-            token in case of a 401 response
-        :rtype: dict[str]
-        :raise: LookupError
-        """
-        token = self.token
+    def _get_with_token(self, url, query_params=None):
         headers = {
             "Accept": "application/json",
-            "Authorization": "Bearer {token}".format(token=token),
+            "Authorization": f"Bearer {self._token}",
         }
+        return requests.get(url, headers=headers, params=query_params)
 
-        response = requests.get(url, headers=headers)
+    def _update_token(self):
+        response = self._get_with_token(self._urls["refresh_token"])
+        if response.status_code == 200:
+            self._save_token(
+                json.loads(response.content.decode("utf-8"))["token"]
+            )
+
+        if response.status_code == 401:
+            raise ConnectionRefusedError("Invalid token")
+
+        raise ConnectionError("Unexpected Response.")
+
+    def _get(self, url, query_params=None, *, allow_401=True):
+        response = self._get_with_token(url, query_params)
         if response.status_code == 200:
             return json.loads(response.content.decode("utf-8"))
-        elif response.status_code == 401:
-            if not _allow_update:
-                raise ConnectionError("Unauthorized access")
 
-            self._update_token()
-            self._get_data(url, _allow_update=False)
+        elif response.status_code == 404:
+            raise LookupError("There are no data for this term.")
 
-        raise LookupError("Couldn't retrieve any data for this term.")
+        elif response.status_code == 401 and allow_401:
+            try:
+                self._update_token()
+            except ConnectionError:
+                self._save_token(self._generate_token())
 
-    def get_tvdb_id(self, imdb_id):
+            return self._get(url, allow_401=False)
+
+        raise ConnectionError("Unexpected Response.")
+
+    def get_series_by_id(self, tvdb_id: Union[str, int]) -> dict:
         """
-        Get the tvdb id of a series given its imdb id
-
-        :type imdb_id: str
-        :rtype: str
+        Get the series info by its tvdb ib
         """
-        url = self.search_url.format(imdb_id=imdb_id)
-        return self._get_data(url)["data"][0]["id"]
+        url = self._urls["series"].format(id=tvdb_id)
+        return self._get(url)["data"]
 
-    def get_imdb_id(self, tvdb_id):
+    def get_series_by_imdb_id(self, imdb_id: str) -> dict:
         """
-        Get the imdb id of a series given its tvdb id
+        Get the series info by its imdb ib
+        """
+        url = self._urls["search_series"]
+        query_params = {"imdbId": imdb_id}
+        tvdb_id = self._get(url, query_params)["data"][0]["id"]
+        return self.get_series_by_id(tvdb_id)
 
-        :type tvdb_id: str
-        :rtype: str
+    def find_series_by_name(self, series_name: str) -> List[dict]:
         """
-        url = self.series_tvdb_url.format(tvdb_id=tvdb_id)
-        info = self._get_data(url)["data"]
-        return info["imdbId"]
+        Find all TV series that match a TV series name
 
-    def find_series_by_name(self, series_name):
-        """
-        Find all series that match a series name
+        The info returned for each TV series are its name,
+        the original air date (in "%Y-%m-%d" format) and the
+        tvdb_id (as an integer).
 
-        :type series_name: str
-        :rtype: list[dict]
+        This information should be enough to identify the desired
+        series and search by id afterwards.
         """
-        url = self.tvdb_series_info_url.format(series_name=series_name)
-        info = self._get_data(url)["data"]
-        information = [
+        url = self._urls["search_series"]
+        query_params = {"name": series_name}
+        info = self._get(url, query_params)["data"]
+
+        return [
             {
                 "name": series["seriesName"],
                 "air_date": series["firstAired"],
@@ -146,22 +137,17 @@ class TVDBClient:
             }
             for series in info
         ]
-        return information
 
-    def get_episodes(self, tvdb_id):
+    def get_episodes_by_series(self, tvdb_id: Union[str, int]) -> List[dict]:
         """
-        Get all the episodes for a series
-
-        :param tvdb_id: The tvdb id of the series
-        :type tvdb_id: str
-        :rtype: list[dict]
+        Get all the episodes for a TV series
         """
-        base_url = self.episodes_url.format(tvdb_id=tvdb_id)
-        full_data = self._get_data(base_url)
+        base_url = self._urls["series_episodes"].format(id=tvdb_id)
+        full_data = self._get(base_url)
         data = full_data["data"]
         number_of_pages = int(full_data["links"]["last"])
         url = base_url + "?page={page_number}"
         for page_number in range(2, number_of_pages + 1):
-            data += self._get_data(url.format(page_number=page_number))["data"]
+            data += self._get(url.format(page_number=page_number))["data"]
 
         return data
