@@ -50,9 +50,7 @@ class TVDBClient:
             "Accept": "application/json",
         }
 
-        response = requests.post(
-            url, headers=headers, data=json.dumps(self._auth_data)
-        )
+        response = requests.post(url, headers=headers, data=json.dumps(self._auth_data))
         if response.status_code == 401:
             raise ConnectionRefusedError("Invalid credentials.")
 
@@ -71,9 +69,7 @@ class TVDBClient:
     def _update_token(self):
         response = self._get_with_token(self._urls["refresh_token"])
         if response.status_code == 200:
-            self._save_token(
-                json.loads(response.content.decode("utf-8"))["token"]
-            )
+            self._save_token(json.loads(response.content.decode("utf-8"))["token"])
 
         if response.status_code == 401:
             raise ConnectionRefusedError("Invalid token")
