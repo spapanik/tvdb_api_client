@@ -16,10 +16,12 @@ sections = ["FUTURE", "STDLIB", "THIRDPARTY", "FIRSTPARTY", "LOCALFOLDER", "TEST
 name = "tvdb_api_client"
 version = "0.2.0"
 description = "A python client for TVDB rest API"
-authors = ["Stephanos Kuma <spapanik21@gmail.com>"]
+authors = [
+    "Stephanos Kuma <spapanik21@gmail.com>",
+]
 
 license = "MIT"
-readme = "readme.md"
+readme = "README.md"
 include = ["CHANGELOG.md"]
 
 repository = "https://github.com/spapanik/tvdb_api_client"
@@ -44,6 +46,16 @@ isort = "^4.3"
 
 pytest = "^5.1"
 pytest-cov = "^2.8"
+coveralls = "^1.8"
 
 ipython = "^7.8"
 ipdb = "^0.12"
+
+flake8 = "^3.7"
+flake8-bugbear = "^19.8"
+flake8-builtins = "^1.4"
+flake8-comprehensions = "^3.1"
+flake8-eradicate = "^0.2.3"
+flake8-executable = "^2.0"
+flake8-mutable = "^1.2"
+flake8-tidy-imports = "^3.1"

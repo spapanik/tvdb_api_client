@@ -1,18 +1,9 @@
-TEST_FLAGS = --cov=src/
-TEST_PATH = tests/
+TEST_FLAGS = --cov=src
+TEST_PATH = tests
 
 .PHONY: install
-install: poetry.lock
+install: requirements.txt
 	poetry install $(POETRY_EXTRA)
-
-.PHONY: format
-format:
-	isort -rc .
-	black .
-
-.PHONY: tests
-tests:
-	py.test $(TEST_FLAGS) $(TEST_PATH)
 
 poetry.lock: pyproject.toml
 	poetry lock
@@ -20,3 +11,18 @@ poetry.lock: pyproject.toml
 requirements.txt: poetry.lock
 	poetry install $(POETRY_EXTRA)
 	poetry show --no-dev | awk '{print $$1"=="$$2}' > $@
+
+.PHONY: format
+format:
+	isort --recursive .
+	black .
+
+.PHONY: lint
+lint:
+	flake8 .
+	isort --check-only --recursive .
+	black --check .
+
+.PHONY: tests
+tests:
+	py.test $(TEST_FLAGS) $(TEST_PATH)
