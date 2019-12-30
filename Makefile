@@ -10,7 +10,7 @@ poetry.lock: pyproject.toml
 
 requirements.txt: poetry.lock
 	poetry install $(POETRY_EXTRA)
-	poetry show --no-dev | awk '{print $$1"=="$$2}' > $@
+	poetry export --without-hashes -f requirements.txt -o $@
 
 .PHONY: format
 format:
