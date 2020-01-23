@@ -1,0 +1,4 @@
+[flake8]
+ignore = E203, W503, E501
+banned-modules = mock = use unittest.mock!
+ban-relative-imports = true
