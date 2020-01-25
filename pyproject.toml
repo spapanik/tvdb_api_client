@@ -44,18 +44,18 @@ requests = "^2.0"
 black = {version = "*", allow-prereleases = true}
 isort = "^4.3"
 
-pytest = "^5.1"
+pytest = "^5.3"
 pytest-cov = "^2.8"
-coveralls = "^1.8"
+coveralls = "^1.10"
 
-ipython = "^7.8"
+ipython = "^7.11"
 ipdb = "^0.12"
 
 flake8 = "^3.7"
-flake8-bugbear = "^19.8"
+flake8-bugbear = "^20.1"
 flake8-builtins = "^1.4"
 flake8-comprehensions = "^3.1"
 flake8-eradicate = "^0.2.3"
 flake8-executable = "^2.0"
 flake8-mutable = "^1.2"
-flake8-tidy-imports = "^3.1"
+flake8-tidy-imports = "^4.0"
