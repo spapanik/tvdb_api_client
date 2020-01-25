@@ -5,18 +5,23 @@ from urllib.parse import urljoin
 import requests
 
 
-class TVDBClient:
-    __slots__ = ["_auth_data", "_cache", "_cache_key", "_saved_token", "_urls"]
+class _Cache(dict):
+    def set(self, key, value):  # noqa: A003
+        self[key] = value
 
-    def __init__(self, username, user_key, api_key, cache):
+
+class TVDBClient:
+    __slots__ = ["_auth_data", "_cache", "_saved_token", "_urls"]
+    _cache_token_key = "tvdb_token"
+
+    def __init__(self, username, user_key, api_key, cache=None):
         self._auth_data = {
             "username": username,
             "userkey": user_key,
             "apikey": api_key,
         }
-        self._cache = cache
-        self._cache_key = "tvdb_token"
-        self._saved_token = self._cache.get(self._cache_key)
+        self._cache = cache or _Cache()
+        self._saved_token = self._cache.get(self._cache_token_key)
         self._urls = self._generate_urls()
 
     @property
@@ -41,7 +46,7 @@ class TVDBClient:
 
     def _save_token(self, token):
         self._saved_token = token
-        self._cache.set(self._cache_key, token)
+        self._cache.set(self._cache_token_key, token)
 
     def _generate_token(self):
         url = self._urls["login"]

@@ -23,13 +23,11 @@ from tvdb_api_client import TVDBClient
 client = TVDBClient("username", "user_key", "api_key", cache)
 ```
 
-The cache can be any object from a class that implements the get and set methods. The simplest solution would be the following:
+The cache can be any object from a class that implements the get and set methods. For convenience, you can pass only the other arguments, and a simple object that has them will be initialised.
 ```python
-class C(dict):
-    def set(self, key, value):
-        self[key] = value
+from tvdb_api_client import TVDBClient
 
-cache = C()
+client = TVDBClient("username", "user_key", "api_key")
 ```
 
 It is advisable to use a cache that will persist during a server restart, so that the token will not have to be regenerated. Please be advised that the token will be stored in the cache in plaintext, so if there are any security considerations they should be taken care into account when choosing the cache.
