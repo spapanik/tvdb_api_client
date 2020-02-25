@@ -1,0 +1,52 @@
+["$globals"]
+vars = [
+    {
+        "pytest_args" = "-vv --cov=src/",
+        "pytest_path" = "tests/",
+        "poetry_extra" = ""
+    },
+]
+
+[all]
+alias = "install"
+
+[install]
+phony = true
+requires = ["requirements.txt"]
+commands = [
+    "poetry install ${poetry_extra}",
+]
+
+[format]
+phony = true
+commands = [
+    "isort --recursive .",
+    "black .",
+]
+
+[lint]
+phony = true
+commands = [
+    "flake8",
+    "isort --check-only --recursive .",
+    "black --check .",
+]
+
+[tests]
+phony = true
+commands = [
+    "pytest ${pytest_args} ${pytest_path}",
+]
+
+["poetry.lock"]
+requires = ["pyproject.toml"]
+commands = [
+    "poetry lock",
+]
+
+["requirements.txt"]
+requires = ["poetry.lock"]
+commands = [
+    "poetry install ${poetry_extra}",
+    "poetry export --without-hashes -f requirements.txt -o ${.target}",
+]

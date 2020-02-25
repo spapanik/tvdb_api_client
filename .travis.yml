@@ -7,10 +7,11 @@ python:
 
 install:
   - "pip install poetry"
-  - "make requirements.txt"
+  - "pip install yamk"
+  - "yam"
 
 script:
-  - "make tests"
+  - "yamk tests"
 
 after_success:
   - coveralls
