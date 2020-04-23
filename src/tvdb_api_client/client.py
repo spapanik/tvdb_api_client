@@ -109,7 +109,7 @@ class TVDBClient:
     def get_series_by_imdb_id(
         self, imdb_id: str, *, refresh_cache: bool = False
     ) -> dict:
-        """Get the series info by its imdb ib"""
+        """Get the series info by its imdb id"""
         key = f"get_series_by_imdb_id::imdb_id:{imdb_id}"
         data = self._cache.get(key)
         if data is None or refresh_cache:
