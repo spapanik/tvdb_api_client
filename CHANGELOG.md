@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 
+### Added
+- Add caching to all methods
+
 ## [0.3.0] - 2020-01-25
 ### Added
 - Dummy cache when no cache specified

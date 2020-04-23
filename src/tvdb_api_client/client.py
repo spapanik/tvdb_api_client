@@ -94,23 +94,35 @@ class TVDBClient:
 
         raise ConnectionError("Unexpected Response.")
 
-    def get_series_by_id(self, tvdb_id: Union[str, int]) -> dict:
-        """
-        Get the series info by its tvdb ib
-        """
-        url = self._urls["series"].format(id=tvdb_id)
-        return self._get(url)["data"]
+    def get_series_by_id(
+        self, tvdb_id: Union[str, int], *, refresh_cache: bool = False
+    ) -> dict:
+        """Get the series info by its tvdb ib"""
+        key = f"get_series_by_id::tvdb_id:{tvdb_id}"
+        data = self._cache.get(key)
+        if data is None or refresh_cache:
+            url = self._urls["series"].format(id=tvdb_id)
+            data = self._get(url)["data"]
+            self._cache.set(key, data)
+        return data
 
-    def get_series_by_imdb_id(self, imdb_id: str) -> dict:
-        """
-        Get the series info by its imdb ib
-        """
-        url = self._urls["search_series"]
-        query_params = {"imdbId": imdb_id}
-        tvdb_id = self._get(url, query_params)["data"][0]["id"]
-        return self.get_series_by_id(tvdb_id)
+    def get_series_by_imdb_id(
+        self, imdb_id: str, *, refresh_cache: bool = False
+    ) -> dict:
+        """Get the series info by its imdb ib"""
+        key = f"get_series_by_imdb_id::imdb_id:{imdb_id}"
+        data = self._cache.get(key)
+        if data is None or refresh_cache:
+            url = self._urls["search_series"]
+            query_params = {"imdbId": imdb_id}
+            tvdb_id = self._get(url, query_params)["data"][0]["id"]
+            data = self.get_series_by_id(tvdb_id)
+            self._cache.set(key, data)
+        return data
 
-    def find_series_by_name(self, series_name: str) -> List[dict]:
+    def find_series_by_name(
+        self, series_name: str, *, refresh_cache: bool = False
+    ) -> List[dict]:
         """
         Find all TV series that match a TV series name
 
@@ -121,23 +133,31 @@ class TVDBClient:
         This information should be enough to identify the desired
         series and search by id afterwards.
         """
-        url = self._urls["search_series"]
-        query_params = {"name": series_name}
-        info = self._get(url, query_params)["data"]
+        key = f"find_series_by_name::series_name:{series_name}"
+        data = self._cache.get(key)
+        if data is None or refresh_cache:
+            url = self._urls["search_series"]
+            query_params = {"name": series_name}
+            info = self._get(url, query_params)["data"]
+            data = [
+                {
+                    "name": series["seriesName"],
+                    "air_date": series["firstAired"],
+                    "tvdb_id": series["id"],
+                }
+                for series in info
+            ]
+            self._cache.set(key, data)
+        return data
 
-        return [
-            {
-                "name": series["seriesName"],
-                "air_date": series["firstAired"],
-                "tvdb_id": series["id"],
-            }
-            for series in info
-        ]
 
-    def get_episodes_by_series(self, tvdb_id: Union[str, int]) -> List[dict]:
-        """
-        Get all the episodes for a TV series
-        """
+def get_episodes_by_series(
+    self, tvdb_id: Union[str, int], refresh_cache: bool = False
+) -> List[dict]:
+    """Get all the episodes for a TV series"""
+    key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
+    data = self._cache.get(key)
+    if data is None or refresh_cache:
         base_url = self._urls["series_episodes"].format(id=tvdb_id)
         full_data = self._get(base_url)
         data = full_data["data"]
@@ -145,5 +165,5 @@ class TVDBClient:
         url = base_url + "?page={page_number}"
         for page_number in range(2, number_of_pages + 1):
             data += self._get(url.format(page_number=page_number))["data"]
-
-        return data
+        self._cache.set(key, data)
+    return data

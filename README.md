@@ -39,4 +39,4 @@ Once the client has been initialised, you can use it to get the following info (
 - Method to find identifying info for a TV series by its name - `find_series_by_name(series_name)`
 - Method to get episodes by TV series using its TVDB id - `get_episodes_by_series(tvdb_id)`
 
-Note: the TVDB id can be an integer of a string in any method that it's required.
+Note: the TVDB id can be an integer of a string in any method that it's required. Also, all of these methods will used the cached value if present. To get new data, you may pass `refresh_cache=True` to all of them.
