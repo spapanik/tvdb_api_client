@@ -11,7 +11,7 @@ class _Cache(dict):
 
 
 class TVDBClient:
-    __slots__ = ["_auth_data", "_cache", "_saved_token", "_urls"]
+    __slots__ = ["_auth_data", "_cache", "_urls"]
     _cache_token_key = "tvdb_token"
 
     def __init__(self, username, user_key, api_key, cache=None):
@@ -21,15 +21,7 @@ class TVDBClient:
             "apikey": api_key,
         }
         self._cache = cache or _Cache()
-        self._saved_token = self._cache.get(self._cache_token_key)
         self._urls = self._generate_urls()
-
-    @property
-    def _token(self):
-        if self._saved_token is None:
-            self._save_token(self._generate_token())
-
-        return self._saved_token
 
     @staticmethod
     def _generate_urls():
@@ -43,10 +35,6 @@ class TVDBClient:
         }
 
         return {key: urljoin(tvdb_base_url, url) for key, url in urls.items()}
-
-    def _save_token(self, token):
-        self._saved_token = token
-        self._cache.set(self._cache_token_key, token)
 
     def _generate_token(self):
         url = self._urls["login"]
@@ -65,16 +53,22 @@ class TVDBClient:
         return json.loads(response.content.decode("utf-8"))["token"]
 
     def _get_with_token(self, url, query_params=None):
+        token = self._cache.get(self._cache_token_key)
+        if token is None:
+            token = self._generate_token()
+            self._cache.set(self._cache_token_key, token)
+
         headers = {
             "Accept": "application/json",
-            "Authorization": f"Bearer {self._token}",
+            "Authorization": f"Bearer {token}",
         }
         return requests.get(url, headers=headers, params=query_params)
 
     def _update_token(self):
         response = self._get_with_token(self._urls["refresh_token"])
         if response.status_code == 200:
-            self._save_token(json.loads(response.content.decode("utf-8"))["token"])
+            token = json.loads(response.content.decode("utf-8"))["token"]
+            self._cache.set(self._cache_token_key, token)
 
         if response.status_code == 401:
             raise ConnectionRefusedError("Invalid token")
@@ -93,7 +87,8 @@ class TVDBClient:
             try:
                 self._update_token()
             except ConnectionError:
-                self._save_token(self._generate_token())
+                token = self._generate_token()
+                self._cache.set(self._cache_token_key, token)
 
             return self._get(url, allow_401=False)
 
