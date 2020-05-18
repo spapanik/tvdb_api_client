@@ -20,7 +20,7 @@ authors = [
     "Stephanos Kuma <spapanik21@gmail.com>",
 ]
 
-license = "MIT"
+license = "LGPL-3.0+"
 readme = "README.md"
 include = ["CHANGELOG.md"]
 
