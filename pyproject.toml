@@ -27,7 +27,7 @@ include = ["CHANGELOG.md"]
 repository = "https://github.com/spapanik/tvdb_api_client"
 
 keywords = ["tvdb", "imdb", "tv series"]
-classifiers=[
+classifiers = [
     "Development Status :: 4 - Beta",
     "Operating System :: OS Independent",
     "Intended Audience :: Developers",
