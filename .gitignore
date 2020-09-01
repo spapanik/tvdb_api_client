@@ -1,8 +1,16 @@
-# python
+# cache
 __pycache__/
-requirements.txt
-pip-wheel-metadata/
+.pytest_cache/
 
-# dist outpout
+# tests
+.coverage
+htmlcov/
+
+# installation artifacts
+.yamk/
+requirements.txt
+
+# Distribution / packaging
+pip-wheel-metadata/
 dist/
-build/
+*.egg-info/
