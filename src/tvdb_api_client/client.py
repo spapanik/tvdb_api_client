@@ -151,19 +151,19 @@ class TVDBClient:
         return data
 
 
-def get_episodes_by_series(
-    self, tvdb_id: Union[str, int], refresh_cache: bool = False
-) -> List[dict]:
-    """Get all the episodes for a TV series"""
-    key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-    data = self._cache.get(key)
-    if data is None or refresh_cache:
-        base_url = self._urls["series_episodes"].format(id=tvdb_id)
-        full_data = self._get(base_url)
-        data = full_data["data"]
-        number_of_pages = int(full_data["links"]["last"])
-        url = base_url + "?page={page_number}"
-        for page_number in range(2, number_of_pages + 1):
-            data += self._get(url.format(page_number=page_number))["data"]
-        self._cache.set(key, data)
-    return data
+    def get_episodes_by_series(
+        self, tvdb_id: Union[str, int], refresh_cache: bool = False
+    ) -> List[dict]:
+        """Get all the episodes for a TV series"""
+        key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
+        data = self._cache.get(key)
+        if data is None or refresh_cache:
+            base_url = self._urls["series_episodes"].format(id=tvdb_id)
+            full_data = self._get(base_url)
+            data = full_data["data"]
+            number_of_pages = int(full_data["links"]["last"])
+            url = base_url + "?page={page_number}"
+            for page_number in range(2, number_of_pages + 1):
+                data += self._get(url.format(page_number=page_number))["data"]
+            self._cache.set(key, data)
+        return data
