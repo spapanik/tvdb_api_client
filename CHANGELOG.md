@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog][clog], and this project adheres to [Se
 
 ## [Unreleased]
 
+## [0.4.1] - 2020-09-30
 ### Fixed
 - Add method get_episodes_by_series back to the class
 
@@ -49,7 +50,8 @@ The format is based on [Keep a Changelog][clog], and this project adheres to [Se
 ### Added
 
 
-[unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.0...master
+[unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.1...master
+[0.4.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.1.7...v0.2.0

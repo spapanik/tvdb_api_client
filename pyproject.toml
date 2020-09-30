@@ -14,7 +14,7 @@ sections = ["STDLIB", "THIRDPARTY", "FIRSTPARTY", "TESTS"]
 
 [tool.poetry]
 name = "tvdb_api_client"
-version = "0.4.0"
+version = "0.4.1"
 description = "A python client for TVDB rest API"
 authors = [
     "Stephanos Kuma <stephanos@kuma.ai>",
