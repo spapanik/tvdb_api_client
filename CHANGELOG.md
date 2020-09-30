@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog][clog], and this project adheres to [Se
 
 ## [Unreleased]
 
+### Fixed
+- Add method get_episodes_by_series back to the class
+
 ## [0.4.0] - 2020-04-23
 ### Added
 - Add caching to all methods
