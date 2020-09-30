@@ -150,7 +150,6 @@ class TVDBClient:
             self._cache.set(key, data)
         return data
 
-
     def get_episodes_by_series(
         self, tvdb_id: Union[str, int], refresh_cache: bool = False
     ) -> List[dict]:
