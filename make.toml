@@ -11,7 +11,7 @@ alias = "install"
 [install]
 phony = true
 keep_ts = true
-requires = ["requirements.txt"]
+requires = ["poetry.lock"]
 commands = [
     "poetry install ${poetry_extra}",
 ]
@@ -44,10 +44,4 @@ commands = [
 requires = ["pyproject.toml"]
 commands = [
     "poetry lock && touch ${.target}",
-]
-
-["requirements.txt"]
-requires = ["poetry.lock"]
-commands = [
-    "poetry export --without-hashes -f requirements.txt -o ${.target}",
 ]
