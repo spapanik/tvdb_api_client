@@ -8,7 +8,7 @@ htmlcov/
 
 # installation artifacts
 .yamk/
-requirements.txt
+poetry.lock
 
 # Distribution / packaging
 pip-wheel-metadata/
