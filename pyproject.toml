@@ -12,7 +12,7 @@ include_trailing_comma = true
 known_tests = "tests"
 sections = ["STDLIB", "THIRDPARTY", "FIRSTPARTY", "TESTS"]
 
-[tool.coverage.paths]
+[tool.coverage.run]
 source = ["src/"]
 
 [tool.poetry]
