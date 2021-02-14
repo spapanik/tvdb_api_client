@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][clog], and this project adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
+- Allow setting the language
 
 ## [0.4.1] - 2020-09-30
 ### Fixed
