@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog][clog], and this project adheres to [Semantic Versioning][semver].
 
 ## [Unreleased]
+
+## [0.4.2] - 2021-02-14
+### Added
 - Allow setting the language
 
 ## [0.4.1] - 2020-09-30
@@ -51,7 +54,8 @@ The format is based on [Keep a Changelog][clog], and this project adheres to [Se
 ### Added
 
 
-[unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.1...master
+[unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.2...master
+[0.4.1]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.1...v0.4.2
 [0.4.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.2.0...v0.3.0
