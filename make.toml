@@ -2,7 +2,6 @@
 vars = [
     {"pytest_args" = "--cov -vv"},
     {"pytest_path" = "tests/"},
-    {"poetry_extra" = ""},
 ]
 
 [all]
