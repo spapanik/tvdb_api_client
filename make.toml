@@ -1,9 +1,3 @@
-["$globals"]
-vars = [
-    {"pytest_args" = "--cov -vv"},
-    {"pytest_path" = "tests/"},
-]
-
 [all]
 alias = "install"
 
