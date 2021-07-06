@@ -1,3 +1,8 @@
+["$globals"]
+vars = [
+    {runner = "poetry run"},
+]
+
 [all]
 alias = "install"
 
@@ -13,24 +18,25 @@ commands = [
 phony = true
 requires = ["install"]
 commands = [
-    "isort .",
-    "black .",
+    "${runner} isort .",
+    "${runner} black .",
 ]
 
 [lint]
 phony = true
 requires = ["install"]
 commands = [
-    "flake8 .",
-    "isort --check .",
-    "black --check .",
+    "${runner} isort --check .",
+    "${runner} black --check .",
+    "${runner} flake8 .",
+    "${runner} mypy .",
 ]
 
 [tests]
 phony = true
 requires = ["install"]
 commands = [
-    "pytest ${pytest_args} ${pytest_path}",
+    "${runner} pytest ${pytest_args} ${pytest_path}",
 ]
 
 ["poetry.lock"]
