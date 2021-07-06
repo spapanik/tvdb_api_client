@@ -1,6 +1,6 @@
 <p align="center">
-<a href="https://travis-ci.org/spapanik/tvdb_api_client"><img alt="Build" src="https://travis-ci.org/spapanik/tvdb_api_client.svg?branch=master"></a>
-<a href="https://coveralls.io/github/spapanik/tvdb_api_client"><img alt="Coverage" src="https://coveralls.io/repos/github/spapanik/tvdb_api_client/badge.svg?branch=master"></a>
+<a href="https://github.com/spapanik/tvdb_api_client/actions/workflows/build.yml"><img alt="Build" src="https://github.com/spapanik/tvdb_api_client/actions/workflows/build.yml/badge.svg"></a>
+<a href="https://lgtm.com/projects/g/spapanik/tvdb_api_client/alerts/"><img alt="Total alerts" src="https://img.shields.io/lgtm/alerts/g/spapanik/tvdb_api_client.svg"/></a>
 <a href="https://github.com/spapanik/tvdb_api_client/blob/master/LICENSE.txt"><img alt="License" src="https://img.shields.io/github/license/spapanik/tvdb_api_client"></a>
 <a href="https://pypi.org/project/tvdb_api_client"><img alt="PyPI" src="https://img.shields.io/pypi/v/tvdb_api_client"></a>
 <a href="https://pepy.tech/project/tvdb-api-client"><img alt="Downloads" src="https://pepy.tech/badge/tvdb-api-client"></a>
