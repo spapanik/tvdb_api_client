@@ -114,7 +114,7 @@ class TVDBClient:
     ) -> dict:
         """Get the series info by its tvdb ib"""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data = self._cache.get(key)
+        data: dict = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["series"].format(id=tvdb_id)
             data = self._get(url, language=language)["data"]
@@ -126,7 +126,7 @@ class TVDBClient:
     ) -> dict:
         """Get the series info by its imdb id"""
         key = f"get_series_by_imdb_id::imdb_id:{imdb_id}"
-        data = self._cache.get(key)
+        data: dict = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["search_series"]
             query_params = {"imdbId": imdb_id}
@@ -149,7 +149,7 @@ class TVDBClient:
         series and search by id afterwards.
         """
         key = f"find_series_by_name::series_name:{series_name}"
-        data = self._cache.get(key)
+        data: List[dict] = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["search_series"]
             query_params = {"name": series_name}
@@ -173,7 +173,7 @@ class TVDBClient:
     ) -> List[dict]:
         """Get all the episodes for a TV series"""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data = self._cache.get(key)
+        data: List[dict] = self._cache.get(key)
         if data is None or refresh_cache:
             base_url = self._urls["series_episodes"].format(id=tvdb_id)
             full_data = self._get(base_url, language=language)
