@@ -15,11 +15,7 @@ class TVDBClient:
     _cache_token_key = "tvdb_token"
 
     def __init__(self, username, user_key, api_key, cache=None, language: str = None):
-        self._auth_data = {
-            "username": username,
-            "userkey": user_key,
-            "apikey": api_key,
-        }
+        self._auth_data = {"username": username, "userkey": user_key, "apikey": api_key}
         self._cache = cache or _Cache()
         self._urls = self._generate_urls()
         self._load_default_language(language)
@@ -48,10 +44,7 @@ class TVDBClient:
 
     def _generate_token(self):
         url = self._urls["login"]
-        headers = {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-        }
+        headers = {"Content-Type": "application/json", "Accept": "application/json"}
 
         response = requests.post(url, headers=headers, data=json.dumps(self._auth_data))
         if response.status_code == 401:
