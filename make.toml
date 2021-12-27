@@ -1,5 +1,6 @@
 ["$globals"]
 vars = [
+    {poetry_extra = "--remove-untracked"},
     {runner = "poetry run"},
 ]
 
