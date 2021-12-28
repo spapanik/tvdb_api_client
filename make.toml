@@ -40,6 +40,29 @@ commands = [
     "${runner} pytest ${pytest_args} ${pytest_path}",
 ]
 
+["docs/source"]
+exists_only = true
+recursive = true
+
+[docs]
+alias = "documentation"
+
+[documentation]
+phony = true
+keep_ts = true
+requires = [
+    "docs/source",
+]
+commands = [
+    "sphinx-build -b html docs/source docs/build",
+]
+
+[clean-docs]
+phony = true
+commands = [
+    "rm -r docs/build/",
+]
+
 ["poetry.lock"]
 requires = ["pyproject.toml"]
 commands = [
