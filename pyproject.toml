@@ -33,8 +33,8 @@ authors = [
 ]
 
 license = "LGPL-3.0+"
-readme = "README.md"
-include = ["CHANGELOG.md"]
+readme = "README.rst"
+include = ["CHANGELOG.rst"]
 
 repository = "https://github.com/spapanik/tvdb_api_client"
 
