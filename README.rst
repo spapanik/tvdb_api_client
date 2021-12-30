@@ -52,6 +52,7 @@ Initialise the client (example using the django cache):
 The cache can be any object from a class that implements the get and set methods. For convenience, you can pass only the other arguments, and a simple object that has them will be initialised.
 
 .. code:: python
+
     from tvdb_api_client import TVDBClient
 
     client = TVDBClient("username", "user_key", "api_key")
