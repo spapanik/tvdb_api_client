@@ -26,7 +26,7 @@ testpaths = "tests"
 
 [tool.poetry]
 name = "tvdb_api_client"
-version = "0.4.2"
+version = "0.5.0"
 description = "A python client for TVDB rest API"
 authors = [
     "Stephanos Kuma <stephanos@kuma.ai>",
