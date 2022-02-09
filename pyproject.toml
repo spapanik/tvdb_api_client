@@ -60,8 +60,8 @@ types-requests = "^2.26.0"
 sphinx = "^4.3.0"
 sphinx-rtd-theme = "^1.0.0"
 
-ipython = "^7.30.0"
-ipdb = "^0.13.0"
+ptpython = "^3.0.0"
+pdbpp = "^0.10.0"
 
 flake8 = "^4.0.0"
 flake8-bugbear = "^21.11.0"
