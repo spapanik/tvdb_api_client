@@ -10,7 +10,7 @@ class _Cache(dict):
         self[key] = value
 
 
-class TVDBClient:
+class TVDBClientV3:
     __slots__ = ["_auth_data", "_cache", "_urls", "_default_language"]
     _cache_token_key = "tvdb_token"
 
@@ -179,3 +179,10 @@ class TVDBClient:
                 )["data"]
             self._cache.set(key, data)
         return data
+
+
+class TVDBClientV4:
+    pass
+
+
+TVDBClient = TVDBClientV3
