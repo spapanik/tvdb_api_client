@@ -49,6 +49,7 @@ classifiers = [
 python = "^3.7.0"
 
 # dependencies
+pathurl = "^0.5.0"
 requests = "^2.0.0"
 
 [tool.poetry.dev-dependencies]

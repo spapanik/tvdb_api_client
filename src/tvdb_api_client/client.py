@@ -1,8 +1,11 @@
 import json
 from typing import List, Union
-from urllib.parse import urljoin
 
 import requests
+from pathurl import URL
+
+BASE_V3_URL = URL("https://api.thetvdb.com/")
+BASE_V4_URL = URL("https://api4.thetvdb.com/v4/")
 
 
 class _Cache(dict):
@@ -22,7 +25,6 @@ class TVDBClientV3:
 
     @staticmethod
     def _generate_urls():
-        tvdb_base_url = "https://api.thetvdb.com"
         urls = {
             "login": "/login",
             "refresh_token": "/refresh_token",
@@ -32,7 +34,7 @@ class TVDBClientV3:
             "user": "/user",
         }
 
-        return {key: urljoin(tvdb_base_url, url) for key, url in urls.items()}
+        return {key: BASE_V3_URL.join(url).string for key, url in urls.items()}
 
     def _load_default_language(self, language: str = None):
         if language is None:
