@@ -12,9 +12,4 @@ class TestCache:
 class TestTVDBClient:
     @staticmethod
     def test_init_without_cache():
-        client.TVDBClient("username", "key", "api_key", language="eng")
-
-    @staticmethod
-    def test_init_default_language():
-        api = client.TVDBClient("username", "key", "api_key", language="eng")
-        assert api._default_language == "eng"
+        client.TVDBClientV4("api_key")

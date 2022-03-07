@@ -1,5 +1,7 @@
 import json
-from typing import List, Union
+from base64 import urlsafe_b64decode
+from datetime import datetime
+from typing import Any, Dict, List, Union, cast
 
 import requests
 from pathurl import URL
@@ -184,7 +186,71 @@ class TVDBClientV3:
 
 
 class TVDBClientV4:
-    pass
+    __slots__ = ["_auth_data", "_cache"]
+
+    def __init__(self, api_key: str, cache=None, pin: str = None):
+        self._auth_data = {"apikey": api_key}
+        if pin is not None:
+            self._auth_data["pin"] = pin
+        self._cache = cache or _Cache()
+
+    @staticmethod
+    def _get_expiry(token: str) -> int:
+        if token is None:
+            return 0
+
+        header, payload, *_ = token.split(".")
+        padding = "=" * (4 - len(payload) % 4)
+        data = json.loads(urlsafe_b64decode(payload + padding).decode())
+        return cast(int, data["exp"])
+
+    def _generate_token(self):
+        login_endpoint = "login"
+        url = BASE_V4_URL.join(login_endpoint)
+        headers = {"Content-Type": "application/json", "accept": "application/json"}
+        response = requests.post(
+            url.string, headers=headers, data=json.dumps(self._auth_data)
+        )
+        if response.status_code == 401:
+            raise ConnectionRefusedError("Invalid credentials.")
+
+        if response.status_code != 200:
+            raise ConnectionError("Unexpected Response.")
+
+        return response.json()["data"]["token"]
+
+    def _get(self, url: URL):
+        cache_token_key = "tvdb_v4_token"
+        token = self._cache.get(cache_token_key)
+        if self._get_expiry(token) < datetime.utcnow().timestamp() + 60:
+            token = self._generate_token()
+            self._cache.set(cache_token_key, token)
+
+        headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
+        response = requests.get(url.string, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+
+        elif response.status_code in {400, 404}:
+            raise LookupError("There are no data for this term.")
+
+        elif response.status_code == 401:
+            raise ConnectionRefusedError("Invalid credentials.")
+
+        raise ConnectionError("Unexpected Response.")
+
+    def get_series_by_id(
+        self, tvdb_id: str, *, refresh_cache: bool = False
+    ) -> Dict[str, Any]:
+        """Get the series info by its tvdb ib"""
+        key = f"get_series_by_id::tvdb_id:{tvdb_id}"
+        data: Dict[str, Any] = self._cache.get(key)
+        if data is None or refresh_cache:
+            url = BASE_V4_URL.join("series/").join(tvdb_id)
+            data = self._get(url)
+            self._cache.set(key, data)
+        return data
 
 
 TVDBClient = TVDBClientV3

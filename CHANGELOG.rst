@@ -9,6 +9,10 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 `Unreleased`_
 -------------
 
+Added
+^^^^^
+* Added a method to get series by the tvdb id (V4 API)
+
 Removed
 ^^^^^^^
 * Removed changelog from the published wheel
