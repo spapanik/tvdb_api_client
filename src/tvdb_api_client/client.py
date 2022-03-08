@@ -6,6 +6,8 @@ from typing import Any, Dict, List, Union, cast
 import requests
 from pathurl import URL
 
+from tvdb_api_client.dataclasses import Episode, Series
+
 BASE_V3_URL = URL("https://api.thetvdb.com/")
 BASE_V4_URL = URL("https://api4.thetvdb.com/v4/")
 
@@ -240,30 +242,43 @@ class TVDBClientV4:
 
         raise ConnectionError("Unexpected Response.")
 
-    def get_series_by_id(
-        self, tvdb_id: str, *, refresh_cache: bool = False
+    def get_raw_series_by_id(
+        self, tvdb_id: int, *, refresh_cache: bool = False
     ) -> Dict[str, Any]:
-        """Get the series info by its tvdb ib"""
+        """Get the series info by its tvdb ib as returned by the TVDB"""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
         data: Dict[str, Any] = self._cache.get(key)
         if data is None or refresh_cache:
-            url = BASE_V4_URL.join("series/").join(tvdb_id)
+            url = BASE_V4_URL.join(f"series/{tvdb_id}")
             data = self._get(url)["data"]
             self._cache.set(key, data)
         return data
 
-    def get_episodes_by_series(
-        self, tvdb_id: str, season_type: str = "default", *, refresh_cache: bool = False
+    def get_series_by_id(self, tvdb_id: int, *, refresh_cache: bool = False) -> Series:
+        raw_data = self.get_raw_series_by_id(tvdb_id, refresh_cache=refresh_cache)
+        return Series.from_raw_data(raw_data)
+
+    def get_raw_episodes_by_series(
+        self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
     ) -> List[Dict[str, Any]]:
-        """Get all the episodes for a TV series"""
+        """Get all the episodes for a TV series as returned by the TVDB"""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
         data: List[Dict[str, Any]] = self._cache.get(key)
         if data is None or refresh_cache:
             base_url = BASE_V4_URL.join(f"series/{tvdb_id}/episodes/{season_type}")
             full_data = self._get(base_url)
-            data = full_data["data"]
+            data = full_data["data"]["episodes"]
             self._cache.set(key, data)
         return data
+
+    def get_episodes_by_series(
+        self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
+    ) -> List[Episode]:
+        """Get all the episodes for a TV series"""
+        raw_data = self.get_raw_episodes_by_series(
+            tvdb_id, season_type, refresh_cache=refresh_cache
+        )
+        return [Episode.from_raw_data(episode_info) for episode_info in raw_data]
 
 
 TVDBClient = TVDBClientV3
