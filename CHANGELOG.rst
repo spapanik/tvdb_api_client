@@ -12,6 +12,7 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 Added
 ^^^^^
 * Added a method to get series by the tvdb id (V4 API)
+* Added a method to get all episodes from a series by the tvdb id of the series (V4 API)
 
 Removed
 ^^^^^^^

@@ -252,5 +252,18 @@ class TVDBClientV4:
             self._cache.set(key, data)
         return data
 
+    def get_episodes_by_series(
+        self, tvdb_id: str, season_type: str = "default", *, refresh_cache: bool = False
+    ) -> List[Dict[str, Any]]:
+        """Get all the episodes for a TV series"""
+        key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
+        data: List[Dict[str, Any]] = self._cache.get(key)
+        if data is None or refresh_cache:
+            base_url = BASE_V4_URL.join(f"series/{tvdb_id}/episodes/{season_type}")
+            full_data = self._get(base_url)
+            data = full_data["data"]
+            self._cache.set(key, data)
+        return data
+
 
 TVDBClient = TVDBClientV3
