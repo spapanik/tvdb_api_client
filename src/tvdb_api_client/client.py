@@ -248,7 +248,7 @@ class TVDBClientV4:
         data: Dict[str, Any] = self._cache.get(key)
         if data is None or refresh_cache:
             url = BASE_V4_URL.join("series/").join(tvdb_id)
-            data = self._get(url)
+            data = self._get(url)["data"]
             self._cache.set(key, data)
         return data
 
