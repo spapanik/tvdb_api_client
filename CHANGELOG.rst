@@ -9,6 +9,9 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 `Unreleased`_
 -------------
 
+`0.6.0`_ - 2022-03-08
+---------------------
+
 Added
 ^^^^^
 * Added a method to get series by the tvdb id (V4 API)
@@ -117,7 +120,8 @@ Added
 ^^^^^
 
 
-.. _`unreleased`: https://github.com/spapanik/tvdb_api_client/compare/v0.5.0...master
+.. _`unreleased`: https://github.com/spapanik/tvdb_api_client/compare/v0.6.0...master
+.. _`0.6.0`: https://github.com/spapanik/tvdb_api_client/compare/v0.5.0...v0.6.0
 .. _`0.5.0`: https://github.com/spapanik/tvdb_api_client/compare/v0.4.2...v0.5.0
 .. _`0.4.2`: https://github.com/spapanik/tvdb_api_client/compare/v0.4.1...v0.4.2
 .. _`0.4.1`: https://github.com/spapanik/tvdb_api_client/compare/v0.4.0...v0.4.1
