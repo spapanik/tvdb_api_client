@@ -1,0 +1,83 @@
+["$globals"]
+shell = "bash"
+version = 4
+
+["$globals".vars]
+poetry_sync = "--sync"
+runner = "poetry run"
+
+[all]
+alias = "install"
+
+[install]
+phony = true
+keep_ts = true
+requires = [
+    "poetry.lock",
+]
+commands = [
+    "poetry install ${poetry_sync} ${poetry_extra}",
+]
+
+[format]
+phony = true
+requires = [
+    "install",
+]
+commands = [
+    "${runner} isort .",
+    "${runner} black .",
+]
+
+[lint]
+phony = true
+requires = [
+    "install",
+]
+commands = [
+    "${runner} isort --check .",
+    "${runner} black --check .",
+    "${runner} poetry lock --check",
+    "${runner} flake8 .",
+    "${runner} mypy .",
+]
+
+[tests]
+phony = true
+requires = [
+    "install",
+]
+commands = [
+    "${runner} pytest ${pytest_args} ${pytest_path}",
+]
+
+["docs/source"]
+exists_only = true
+recursive = true
+
+[docs]
+alias = "documentation"
+
+[documentation]
+phony = true
+keep_ts = true
+requires = [
+    "docs/source",
+]
+commands = [
+    "sphinx-build -b html docs/source docs/build",
+]
+
+[clean-docs]
+phony = true
+commands = [
+    "rm -r docs/build/",
+]
+
+["poetry.lock"]
+requires = [
+    "pyproject.toml",
+]
+commands = [
+    "poetry lock && touch ${.target}",
+]
