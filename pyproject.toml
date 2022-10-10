@@ -25,6 +25,25 @@ warn_unused_ignores = true
 warn_unreachable = true
 warn_unused_configs = true
 
+[tool.flake8]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    ".cache",
+]
+max-line-length = 88
+ignore = [
+    "E203",
+    "E501",
+    "W503",
+]
+banned-modules = """
+    mock = use unittest.mock
+    pytz = use zoneinfo
+"""
+ban-relative-imports = true
+
 [tool.pytest.ini_options]
 addopts = "-vv"
 testpaths = "tests"
