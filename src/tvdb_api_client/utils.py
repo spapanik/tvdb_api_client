@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import date, datetime
+from datetime import date, datetime, timezone
 
 from tvdb_api_client.constants import DATE_FORMAT, DATETIME_FORMAT
 
@@ -17,3 +17,7 @@ def get_tvdb_datetime(datetime_string: str) -> datetime | None:
         return None
 
     return datetime.strptime(datetime_string, DATETIME_FORMAT)
+
+
+def now() -> datetime:
+    return datetime.now(timezone.utc)

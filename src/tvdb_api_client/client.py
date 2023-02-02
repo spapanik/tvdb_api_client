@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 from base64 import urlsafe_b64decode
-from datetime import datetime
 from typing import Any, cast
 
 import requests
@@ -56,7 +55,7 @@ class TVDBClient:
     def _get(self, url: URL):
         cache_token_key = "tvdb_v4_token"
         token = self._cache.get(cache_token_key)
-        if self._get_expiry(token) < datetime.utcnow().timestamp() + 60:
+        if self._get_expiry(token) < now().timestamp() + 60:
             token = self._generate_token()
             self._cache.set(cache_token_key, token)
 
