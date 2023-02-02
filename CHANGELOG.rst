@@ -9,6 +9,10 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 `Unreleased`_
 -------------
 
+Removed
+^^^^^^^
+* Dropped support for TVDB APIv3
+
 `0.6.0`_ - 2022-03-08
 ---------------------
 
