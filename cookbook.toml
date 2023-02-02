@@ -6,9 +6,6 @@ version = 4
 poetry_sync = "--sync"
 runner = "poetry run"
 
-[all]
-alias = "install"
-
 [install]
 phony = true
 keep_ts = true
@@ -75,9 +72,10 @@ commands = [
 ]
 
 ["poetry.lock"]
+update = true
 requires = [
     "pyproject.toml",
 ]
 commands = [
-    "poetry lock && touch ${.target}",
+    "poetry lock",
 ]

@@ -5,9 +5,6 @@ tvdb_api_client: an unofficial API for the TVDB
 .. image:: https://github.com/spapanik/tvdb_api_client/actions/workflows/build.yml/badge.svg
   :alt: Build
   :target: https://github.com/spapanik/tvdb_api_client/actions/workflows/build.yml
-.. image:: https://img.shields.io/lgtm/alerts/g/spapanik/tvdb_api_client.svg
-  :alt: Total alerts
-  :target: https://lgtm.com/projects/g/spapanik/tvdb_api_client/alerts/
 .. image:: https://img.shields.io/github/license/spapanik/tvdb_api_client
   :alt: License
   :target: https://github.com/spapanik/tvdb_api_client/blob/main/LICENSE.txt

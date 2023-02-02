@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 import json
 from base64 import urlsafe_b64decode
 from datetime import datetime
-from typing import Any, Dict, List, Union, cast
+from typing import Any, cast
 
 import requests
 from pathurl import URL
@@ -21,7 +23,9 @@ class TVDBClientV3:
     __slots__ = ["_auth_data", "_cache", "_urls", "_default_language"]
     _cache_token_key = "tvdb_token"
 
-    def __init__(self, username, user_key, api_key, cache=None, language: str = None):
+    def __init__(
+        self, username, user_key, api_key, cache=None, language: str | None = None
+    ):
         self._auth_data = {"username": username, "userkey": user_key, "apikey": api_key}
         self._cache = cache or _Cache()
         self._urls = self._generate_urls()
@@ -40,7 +44,7 @@ class TVDBClientV3:
 
         return {key: BASE_V3_URL.join(url).string for key, url in urls.items()}
 
-    def _load_default_language(self, language: str = None):
+    def _load_default_language(self, language: str | None = None):
         if language is None:
             self._default_language = None
             url = self._urls["user"]
@@ -61,7 +65,7 @@ class TVDBClientV3:
 
         return json.loads(response.content.decode("utf-8"))["token"]
 
-    def _get_with_token(self, url, query_params=None, language: str = None):
+    def _get_with_token(self, url, query_params=None, language: str | None = None):
         token = self._cache.get(self._cache_token_key)
         if token is None:
             token = self._generate_token()
@@ -85,7 +89,9 @@ class TVDBClientV3:
 
         raise ConnectionError("Unexpected Response.")
 
-    def _get(self, url, query_params=None, *, allow_401=True, language: str = None):
+    def _get(
+        self, url, query_params=None, *, allow_401=True, language: str | None = None
+    ):
         response = self._get_with_token(url, query_params, language)
         if response.status_code == 200:
             return json.loads(response.content.decode("utf-8"))
@@ -106,14 +112,14 @@ class TVDBClientV3:
 
     def get_series_by_id(
         self,
-        tvdb_id: Union[str, int],
+        tvdb_id: str | int,
         *,
         refresh_cache: bool = False,
-        language: str = None,
-    ) -> Dict[str, Any]:
+        language: str | None = None,
+    ) -> dict[str, Any]:
         """Get the series info by its tvdb ib"""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data: Dict[str, Any] = self._cache.get(key)
+        data: dict[str, Any] = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["series"].format(id=tvdb_id)
             data = self._get(url, language=language)["data"]
@@ -121,11 +127,11 @@ class TVDBClientV3:
         return data
 
     def get_series_by_imdb_id(
-        self, imdb_id: str, *, refresh_cache: bool = False, language: str = None
-    ) -> Dict[str, Any]:
+        self, imdb_id: str, *, refresh_cache: bool = False, language: str | None = None
+    ) -> dict[str, Any]:
         """Get the series info by its imdb id"""
         key = f"get_series_by_imdb_id::imdb_id:{imdb_id}"
-        data: Dict[str, Any] = self._cache.get(key)
+        data: dict[str, Any] = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["search_series"]
             query_params = {"imdbId": imdb_id}
@@ -135,8 +141,12 @@ class TVDBClientV3:
         return data
 
     def find_series_by_name(
-        self, series_name: str, *, refresh_cache: bool = False, language: str = None
-    ) -> List[Dict[str, Any]]:
+        self,
+        series_name: str,
+        *,
+        refresh_cache: bool = False,
+        language: str | None = None,
+    ) -> list[dict[str, Any]]:
         """
         Find all TV series that match a TV series name
 
@@ -148,7 +158,7 @@ class TVDBClientV3:
         series and search by id afterwards.
         """
         key = f"find_series_by_name::series_name:{series_name}"
-        data: List[Dict[str, Any]] = self._cache.get(key)
+        data: list[dict[str, Any]] = self._cache.get(key)
         if data is None or refresh_cache:
             url = self._urls["search_series"]
             query_params = {"name": series_name}
@@ -166,13 +176,13 @@ class TVDBClientV3:
 
     def get_episodes_by_series(
         self,
-        tvdb_id: Union[str, int],
+        tvdb_id: str | int,
         refresh_cache: bool = False,
-        language: str = None,
-    ) -> List[Dict[str, Any]]:
+        language: str | None = None,
+    ) -> list[dict[str, Any]]:
         """Get all the episodes for a TV series"""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data: List[Dict[str, Any]] = self._cache.get(key)
+        data: list[dict[str, Any]] = self._cache.get(key)
         if data is None or refresh_cache:
             base_url = self._urls["series_episodes"].format(id=tvdb_id)
             full_data = self._get(base_url, language=language)
@@ -190,7 +200,7 @@ class TVDBClientV3:
 class TVDBClientV4:
     __slots__ = ["_auth_data", "_cache"]
 
-    def __init__(self, api_key: str, cache=None, pin: str = None):
+    def __init__(self, api_key: str, cache=None, pin: str | None = None):
         self._auth_data = {"apikey": api_key}
         if pin is not None:
             self._auth_data["pin"] = pin
@@ -244,10 +254,10 @@ class TVDBClientV4:
 
     def get_raw_series_by_id(
         self, tvdb_id: int, *, refresh_cache: bool = False
-    ) -> Dict[str, Any]:
+    ) -> dict[str, Any]:
         """Get the series info by its tvdb ib as returned by the TVDB"""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data: Dict[str, Any] = self._cache.get(key)
+        data: dict[str, Any] = self._cache.get(key)
         if data is None or refresh_cache:
             url = BASE_V4_URL.join(f"series/{tvdb_id}")
             data = self._get(url)["data"]
@@ -260,10 +270,10 @@ class TVDBClientV4:
 
     def get_raw_episodes_by_series(
         self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
-    ) -> List[Dict[str, Any]]:
+    ) -> list[dict[str, Any]]:
         """Get all the episodes for a TV series as returned by the TVDB"""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data: List[Dict[str, Any]] = self._cache.get(key)
+        data: list[dict[str, Any]] = self._cache.get(key)
         if data is None or refresh_cache:
             base_url = BASE_V4_URL.join(f"series/{tvdb_id}/episodes/{season_type}")
             full_data = self._get(base_url)
@@ -273,7 +283,7 @@ class TVDBClientV4:
 
     def get_episodes_by_series(
         self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
-    ) -> List[Episode]:
+    ) -> list[Episode]:
         """Get all the episodes for a TV series"""
         raw_data = self.get_raw_episodes_by_series(
             tvdb_id, season_type, refresh_cache=refresh_cache

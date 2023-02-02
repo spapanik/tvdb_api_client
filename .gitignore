@@ -3,6 +3,9 @@ __pycache__/
 .mypy_cache/
 .pytest_cache/
 
+# tests
+.coverage
+
 # installation artifacts
 .yamk/
 poetry.lock

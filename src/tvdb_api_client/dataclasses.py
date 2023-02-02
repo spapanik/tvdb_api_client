@@ -1,6 +1,8 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from datetime import date, datetime
-from typing import Any, Dict, List
+from typing import Any
 
 from pathurl import URL
 
@@ -13,7 +15,7 @@ class Alias:
     name: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: Dict[str, Any]) -> "Alias":
+    def from_raw_data(cls, raw_data: dict[str, Any]) -> Alias:
         return cls(language=raw_data.get("language"), name=raw_data.get("name"))
 
 
@@ -25,7 +27,7 @@ class Status:
     keep_updated: bool
 
     @classmethod
-    def from_raw_data(cls, raw_data: Dict[str, Any]) -> "Status":
+    def from_raw_data(cls, raw_data: dict[str, Any]) -> Status:
         return cls(
             id=raw_data.get("id"),
             name=raw_data.get("name"),
@@ -40,9 +42,9 @@ class Series:
     name: str
     slug: str
     image: URL
-    name_translations: List[str]
-    overview_translations: List[str]
-    aliases: List[Alias]
+    name_translations: list[str]
+    overview_translations: list[str]
+    aliases: list[Alias]
     first_aired: date
     last_aired: date
     next_aired: date
@@ -57,7 +59,7 @@ class Series:
     overview: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: Dict[str, Any]) -> "Series":
+    def from_raw_data(cls, raw_data: dict[str, Any]) -> Series:
         return cls(
             id=raw_data.get("id"),
             name=raw_data.get("name"),
@@ -88,9 +90,9 @@ class Episode:
     name: str
     aired: date
     runtime: int
-    name_translations: List[str]
+    name_translations: list[str]
     overview: str
-    overview_translations: List[str]
+    overview_translations: list[str]
     image: URL
     image_type: int
     is_movie: int
@@ -100,7 +102,7 @@ class Episode:
     finale_type: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: Dict[str, Any]) -> "Episode":
+    def from_raw_data(cls, raw_data: dict[str, Any]) -> Episode:
         return cls(
             id=raw_data.get("id"),
             series_id=raw_data.get("seriesId"),

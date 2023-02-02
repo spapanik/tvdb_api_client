@@ -32,7 +32,7 @@ It can be initialised with a cache (optionally), and if no cache is passed a dum
        :param str user_key: The TVDB user key
        :param str api_key: The TVDB api key
        :param cache: The caching object to be used
-       :param Optional[str] language: The 2-letter language code
+       :param str language: The 2-letter language code
 
        Initialise the TVDB client
 
@@ -43,7 +43,7 @@ It can be initialised with a cache (optionally), and if no cache is passed a dum
             language=None, \
         )
 
-       :param Union[str, int] tvdb_id: The TVDB id of the series
+       :param str | int tvdb_id: The TVDB id of the series
        :param bool refresh_cache: Whether to use or not cached responses
        :param str language: The 2-letter code, if overriding the client's language is needed
        :return: A dictionary of the series info
@@ -77,7 +77,7 @@ It can be initialised with a cache (optionally), and if no cache is passed a dum
        :param bool refresh_cache: Whether to use or not cached responses
        :param str language: The 2-letter code, if overriding the client's language is needed
        :return: A list of all the series that match the name
-       :rtype: List[dict]
+       :rtype: list[dict]
 
        Find all TV series that match a TV series name
 
@@ -89,17 +89,17 @@ It can be initialised with a cache (optionally), and if no cache is passed a dum
        series and search by id afterwards.
 
     .. py:method:: get_episodes_by_series( \
-            tvdb_id: Union[str, int], \
+            tvdb_id: str | int, \
             *, \
             refresh_cache=False, \
             language=None, \
         )
 
-       :param Union[str, int] tvdb_id: The TVDB id of the series
+       :param str | int tvdb_id: The TVDB id of the series
        :param bool refresh_cache: Whether to use or not cached responses
        :param str language: The 2-letter code, if overriding the client's language is needed
        :return: A list of all the episodes
-       :rtype: List[dict]
+       :rtype: list[dict]
 
         Get all the episodes for a TV series
 
