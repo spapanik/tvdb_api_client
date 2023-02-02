@@ -28,7 +28,7 @@ class TVDBClient:
         self._cache = cache or _Cache()
 
     @staticmethod
-    def _get_expiry(token: str) -> int:
+    def _get_expiry(token: str | None) -> int:
         if token is None:
             return 0
 
@@ -78,10 +78,10 @@ class TVDBClient:
     ) -> dict[str, Any]:
         """Get the series info by its tvdb ib as returned by the TVDB"""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data: dict[str, Any] = self._cache.get(key)
+        data: dict[str, Any] | None = self._cache.get(key)
         if data is None or refresh_cache:
             url = BASE_API_URL.join(f"series/{tvdb_id}")
-            data = self._get(url)["data"]
+            data = self._get(url)["data"] or {}
             self._cache.set(key, data)
         return data
 
@@ -94,11 +94,11 @@ class TVDBClient:
     ) -> list[dict[str, Any]]:
         """Get all the episodes for a TV series as returned by the TVDB"""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data: list[dict[str, Any]] = self._cache.get(key)
+        data: list[dict[str, Any]] | None = self._cache.get(key)
         if data is None or refresh_cache:
             base_url = BASE_API_URL.join(f"series/{tvdb_id}/episodes/{season_type}")
             full_data = self._get(base_url)
-            data = full_data["data"]["episodes"]
+            data = full_data["data"]["episodes"] or []
             self._cache.set(key, data)
         return data
 
