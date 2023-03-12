@@ -1,4 +1,4 @@
-name: build
+name: lint
 
 on:
   push:
@@ -7,13 +7,13 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  lint:
 
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python-version: ["3.8", "3.9", "3.10", "3.11"]
 
     steps:
     - uses: actions/checkout@v3
@@ -31,9 +31,6 @@ jobs:
         python -m pip install --upgrade pip wheel
         pip install yamk
         yam install
-    - name: Lint with flake8
+    - name: Lint the project
       run: |
         yam lint
-    - name: Test with pytest
-      run: |
-        yam tests
