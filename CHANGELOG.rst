@@ -12,6 +12,7 @@ The format is based on `Keep a Changelog`_, and this project adheres to `Semanti
 Removed
 ^^^^^^^
 * Dropped support for TVDB APIv3
+* Drop python 3.7 support
 
 `0.6.0`_ - 2022-03-08
 ---------------------
