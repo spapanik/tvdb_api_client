@@ -1,3 +1,4 @@
+# noqa: INP001
 from __future__ import annotations  # py39
 
 project = "tvdb_api_client"

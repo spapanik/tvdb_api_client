@@ -22,8 +22,8 @@ requires = [
     "install",
 ]
 commands = [
-    "${runner} isort .",
     "${runner} black .",
+    "${runner} ruff --fix-only .",
 ]
 
 [lint]
@@ -32,10 +32,9 @@ requires = [
     "install",
 ]
 commands = [
-    "${runner} isort --check .",
     "${runner} black --check .",
     "${runner} poetry lock --check",
-    "${runner} flake8 .",
+    "${runner} ruff .",
     "${runner} mypy .",
 ]
 
