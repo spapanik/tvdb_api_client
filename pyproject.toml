@@ -22,24 +22,59 @@ warn_unused_ignores = true
 warn_unreachable = true
 warn_unused_configs = true
 
-[tool.flake8]
-exclude = [
-    ".git",
-    "__pycache__",
-    ".venv",
-    ".cache",
+[tool.ruff]
+select = [
+    "A",
+    "ARG",
+    "B",
+    "BLE",
+    "C4",
+    "DTZ",
+    "E",
+    "ERA",
+    "EXE",
+    "F",
+    "FBT",
+    "G",
+    "I",
+    "INP",
+    "ISC",
+    "N",
+    "PGH",
+    "PIE",
+    "PLC",
+    "PLE",
+    "PLW",
+    "PT",
+    "PTH",
+    "RET",
+    "RSE",
+    "RUF",
+    "S",
+    "SIM",
+    "SLF",
+    "T10",
+    "TID",
+    "TRY",
+    "UP",
+    "W",
 ]
-max-line-length = 88
 ignore = [
-    "E203",
     "E501",
-    "W503",
+    "TRY003",
 ]
-banned-modules = """
-    mock = use unittest.mock
-    pytz = use zoneinfo
-"""
-ban-relative-imports = true
+src = ["src"]
+target-version = "py38"
+
+[tool.ruff.per-file-ignores]
+"tests/**" = ["S101"]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.flake8-tidy-imports.banned-api]
+"mock".msg = "Use unittest.mock"
+"pytz".msg = "Use zoneinfo"
 
 [tool.pytest.ini_options]
 addopts = "-vv --cov --cov-report=term-missing:skip-covered"
@@ -47,6 +82,7 @@ testpaths = "tests"
 
 [tool.coverage.run]
 source = ["src/"]
+data_file = ".cov_cache/coverage.dat"
 
 [tool.poetry]
 name = "tvdb_api_client"
@@ -59,7 +95,9 @@ authors = [
 license = "LGPL-3.0+"
 readme = "README.rst"
 
+homepage = "https://tvdb-api-client.readthedocs.io/en/stable/"
 repository = "https://github.com/spapanik/tvdb_api_client"
+documentation = "https://tvdb-api-client.readthedocs.io/en/stable/"
 
 keywords = ["tvdb", "imdb", "tv series"]
 classifiers = [
@@ -70,36 +108,26 @@ classifiers = [
 
 [tool.poetry.dependencies]
 # python version
-python = "^3.7"
+python = "^3.8"
 
 # dependencies
 pathurl = "^0.5"
 requests = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
-ipdb = {version = "^0.13", python = "^3.10"}
-ipython = {version = "^8.9", python = "^3.10"}
-pipdeptree = "^2.3"
+ipdb = {version = "^0.13", python = "^3.9"}
+ipython = {version = "^8.11", python = "^3.9"}
+pipdeptree = "^2.5"
 
 [tool.poetry.group.lint.dependencies]
 black = "^23.1"
-flake8 = "^5.0"
-flake8-bugbear = "^23.1"
-flake8-builtins = "^2.0"
-flake8-comprehensions = "^3.10"
-flake8-eradicate = "^1.4"
-flake8-executable = "^2.1"
-flake8-mutable = "^1.2"
-Flake8-pyproject = "^1.2"
-flake8-tidy-imports = "^4.8"
-isort = "^5.11"
-mypy = "^0.991"
-types-requests = "^2.26"
+mypy = "^1.0"
+ruff = "^0.0"
 
 [tool.poetry.group.test.dependencies]
 pytest = "^7.1"
 pytest-cov = "^4.0"
 
 [tool.poetry.group.docs.dependencies]
-sphinx = {version = "^5.2", python = "^3.10"}
-sphinx-rtd-theme = {version = "^1.0", python = "^3.10"}
+sphinx = "^6.1"
+sphinx-rtd-theme = "^1.2"

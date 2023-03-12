@@ -2,9 +2,8 @@
 __pycache__/
 .mypy_cache/
 .pytest_cache/
-
-# tests
-.coverage
+.ruff_cache/
+.cov_cache/
 
 # installation artifacts
 .yamk/
@@ -15,3 +14,7 @@ docs/build/
 pip-wheel-metadata/
 dist/
 *.egg-info/
+
+# dev
+local*
+local/
