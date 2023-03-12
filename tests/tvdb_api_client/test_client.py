@@ -4,7 +4,7 @@ from tvdb_api_client import client
 class TestCache:
     @staticmethod
     def test_set():
-        cache = client._Cache()
+        cache = client._Cache()  # noqa: SLF001
         cache.set("attribute", "value")
         assert cache.get("attribute") == "value"
 

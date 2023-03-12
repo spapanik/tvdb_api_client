@@ -9,14 +9,18 @@ def get_tvdb_date(date_string: str) -> date | None:
     if not date_string:
         return None
 
-    return datetime.strptime(date_string, DATE_FORMAT).date()
+    return (
+        datetime.strptime(date_string, DATE_FORMAT).replace(tzinfo=timezone.utc).date()
+    )
 
 
 def get_tvdb_datetime(datetime_string: str) -> datetime | None:
     if not datetime_string:
         return None
 
-    return datetime.strptime(datetime_string, DATETIME_FORMAT)
+    return datetime.strptime(datetime_string, DATETIME_FORMAT).replace(
+        tzinfo=timezone.utc
+    )
 
 
 def now() -> datetime:

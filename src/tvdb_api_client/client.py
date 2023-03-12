@@ -42,7 +42,10 @@ class TVDBClient:
         url = BASE_API_URL.join(login_endpoint)
         headers = {"Content-Type": "application/json", "accept": "application/json"}
         response = requests.post(
-            url.string, headers=headers, data=json.dumps(self._auth_data)
+            url.string,
+            headers=headers,
+            data=json.dumps(self._auth_data),
+            timeout=(60, 120),
         )
         if response.status_code == 401:
             raise ConnectionRefusedError("Invalid credentials.")
@@ -53,22 +56,22 @@ class TVDBClient:
         return response.json()["data"]["token"]
 
     def _get(self, url: URL):
-        cache_token_key = "tvdb_v4_token"
+        cache_token_key = "tvdb_v4_token"  # noqa: S105
         token = self._cache.get(cache_token_key)
         if self._get_expiry(token) < now().timestamp() + 60:
             token = self._generate_token()
             self._cache.set(cache_token_key, token)
 
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
-        response = requests.get(url.string, headers=headers)
+        response = requests.get(url.string, headers=headers, timeout=(60, 120))
 
         if response.status_code == 200:
             return response.json()
 
-        elif response.status_code in {400, 404}:
+        if response.status_code in {400, 404}:
             raise LookupError("There are no data for this term.")
 
-        elif response.status_code == 401:
+        if response.status_code == 401:
             raise ConnectionRefusedError("Invalid credentials.")
 
         raise ConnectionError("Unexpected Response.")
