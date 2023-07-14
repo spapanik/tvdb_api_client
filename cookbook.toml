@@ -67,7 +67,8 @@ commands = [
 [clean-docs]
 phony = true
 commands = [
-    "rm -r docs/build/",
+    "rm -rf docs/build/",
+    "rm -f .yamk/documentation",
 ]
 
 ["poetry.lock"]
