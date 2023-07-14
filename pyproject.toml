@@ -127,7 +127,7 @@ classifiers = [
 python = "^3.8"
 
 # dependencies
-pathurl = "^0.5"
+pathurl = "^0.6"
 requests = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
