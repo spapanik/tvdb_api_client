@@ -1,36 +1,77 @@
 name: tests
-
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
-
+    branches:
+      - main
 jobs:
-  run-unittests:
-
+  lint:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.8", "3.9", "3.10", "3.11"]
-
+        python-version:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+          - '3.11'
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    - uses: Gr1N/setup-poetry@v8
-    - uses: actions/cache@v3
-      with:
-        path: ~/.cache/pypoetry/virtualenvs
-        key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip wheel
-        pip install yamk
-        yam install
-    - name: Run unittests
-      run: |
-        yam tests
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v8
+      - name: Use cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel yamk
+          . $(poetry env use python | tail -n 1 | cut -d' ' -f3-)/bin/activate
+          python -m pip install --upgrade pip wheel
+          yam install
+      - name: Lint the project
+        run: |
+          . $(poetry env use python | tail -n 1 | cut -d' ' -f3-)/bin/activate
+          yam lint
+  run-unittests:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version:
+          - '3.8'
+          - '3.9'
+          - '3.10'
+          - '3.11'
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install poetry
+        uses: Gr1N/setup-poetry@v8
+      - name: Use cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pypoetry/virtualenvs
+          key: ${{ runner.os }}-${{ matrix.python-version }}-poetry-${{ hashFiles('pyproject.toml') }}
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip wheel yamk
+          . $(poetry env use python | tail -n 1 | cut -d' ' -f3-)/bin/activate
+          python -m pip install --upgrade pip wheel
+          yam install
+      - name: Lint the project
+        run: |
+          . $(poetry env use python | tail -n 1 | cut -d' ' -f3-)/bin/activate
+          yam tests

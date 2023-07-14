@@ -1,10 +1,9 @@
 ["$globals"]
 shell = "bash"
-version = 4
+version = "5.2"
 
 ["$globals".vars]
 poetry_sync = "--sync"
-runner = "poetry run"
 
 [install]
 phony = true
@@ -22,8 +21,8 @@ requires = [
     "install",
 ]
 commands = [
-    "${runner} black .",
-    "${runner} ruff --fix-only .",
+    "black .",
+    "ruff --fix-only .",
 ]
 
 [lint]
@@ -32,10 +31,10 @@ requires = [
     "install",
 ]
 commands = [
-    "${runner} black --check .",
-    "${runner} poetry lock --check",
-    "${runner} ruff .",
-    "${runner} mypy .",
+    "black --check .",
+    "poetry lock --check",
+    "ruff .",
+    "mypy .",
 ]
 
 [tests]
@@ -44,7 +43,7 @@ requires = [
     "install",
 ]
 commands = [
-    "${runner} pytest ${pytest_args} ${pytest_path}",
+    "pytest ${pytest_args} ${pytest_path} ${.extra}",
 ]
 
 ["docs/source"]
