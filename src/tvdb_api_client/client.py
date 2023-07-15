@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from base64 import urlsafe_b64decode
-from typing import Any, cast
+from typing import Any, Protocol, cast
 
 import requests
 from pathurl import URL
@@ -13,15 +13,25 @@ from tvdb_api_client.utils import now
 BASE_API_URL = URL("https://api4.thetvdb.com/v4/")
 
 
+class AbstractCache(Protocol):
+    def set(self, key: str, value: Any) -> None:  # noqa: A003
+        ...
+
+    def get(self, key: str) -> Any:
+        ...
+
+
 class _Cache(dict):  # type: ignore[type-arg]
-    def set(self, key, value):  # noqa: A003
+    def set(self, key: str, value: Any) -> None:  # noqa: A003
         self[key] = value
 
 
 class TVDBClient:
     __slots__ = ["_auth_data", "_cache"]
 
-    def __init__(self, api_key: str, cache=None, pin: str | None = None):
+    def __init__(
+        self, api_key: str, cache: AbstractCache | None = None, pin: str | None = None
+    ):
         self._auth_data = {"apikey": api_key}
         if pin is not None:
             self._auth_data["pin"] = pin
@@ -37,7 +47,7 @@ class TVDBClient:
         data = json.loads(urlsafe_b64decode(payload + padding).decode())
         return cast(int, data["exp"])
 
-    def _generate_token(self):
+    def _generate_token(self) -> str:
         login_endpoint = "login"
         url = BASE_API_URL.join(login_endpoint)
         headers = {"Content-Type": "application/json", "accept": "application/json"}
@@ -53,9 +63,9 @@ class TVDBClient:
         if response.status_code != 200:
             raise ConnectionError("Unexpected Response.")
 
-        return response.json()["data"]["token"]
+        return cast(str, response.json()["data"]["token"])
 
-    def _get(self, url: URL):
+    def _get(self, url: URL) -> dict[str, Any]:
         cache_token_key = "tvdb_v4_token"  # noqa: S105
         token = self._cache.get(cache_token_key)
         if self._get_expiry(token) < now().timestamp() + 60:
@@ -66,7 +76,7 @@ class TVDBClient:
         response = requests.get(url.string, headers=headers, timeout=(60, 120))
 
         if response.status_code == 200:
-            return response.json()
+            return cast(dict[str, Any], response.json())
 
         if response.status_code in {400, 404}:
             raise LookupError("There are no data for this term.")
