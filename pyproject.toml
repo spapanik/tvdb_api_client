@@ -1,9 +1,13 @@
 [build-system]
-requires = ["poetry_core>=1.0.0"]
+requires = [
+    "poetry_core>=1.0.0",
+]
 build-backend = "poetry.core.masonry.api"
 
 [tool.black]
-target-version = ["py38"]
+target-version = [
+    "py38",
+]
 
 [tool.mypy]
 check_untyped_defs = true
@@ -13,10 +17,10 @@ disallow_subclassing_any = true
 disallow_untyped_calls = true
 disallow_untyped_decorators = true
 disallow_untyped_defs = true
+extra_checks = true
 ignore_missing_imports = true
 no_implicit_reexport = true
 show_error_codes = true
-strict_concatenate = true
 strict_equality = true
 warn_return_any = true
 warn_redundant_casts = true
@@ -25,66 +29,84 @@ warn_unreachable = true
 warn_unused_configs = true
 
 [tool.ruff]
+src = [
+    "src",
+]
+target-version = "py38"
+
+[tool.ruff.lint]
 select = [
     "A",
     "ARG",
+    "ASYNC",
     "B",
     "BLE",
     "C4",
+    "COM",
     "DTZ",
     "E",
+    "EM",
     "ERA",
     "EXE",
     "F",
+    "FA",
     "FBT",
+    "FLY",
     "G",
     "I",
+    "ICN",
     "INP",
     "ISC",
+    "LOG",
     "N",
     "PGH",
+    "PERF",
     "PIE",
     "PLC",
     "PLE",
     "PLW",
     "PT",
     "PTH",
+    "Q",
     "RET",
     "RSE",
     "RUF",
     "S",
     "SIM",
     "SLF",
+    "SLOT",
     "T10",
     "TID",
     "TRY",
     "UP",
     "W",
+    "YTT",
 ]
 ignore = [
+    "COM812",
     "E501",
     "TRY003",
 ]
-src = ["src"]
-target-version = "py38"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "tests/**" = [
     "FBT001",
     "PT011",
     "S101",
 ]
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.flake8-tidy-imports.banned-api]
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
 "mock".msg = "Use unittest.mock"
 "pytz".msg = "Use zoneinfo"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 combine-as-imports = true
-forced-separate = ["tests"]
+forced-separate = [
+    "tests",
+]
 split-on-trailing-comma = false
 
 [tool.pytest.ini_options]
@@ -92,7 +114,9 @@ addopts = "-vv"
 testpaths = "tests"
 
 [tool.coverage.run]
-source = ["src/"]
+source = [
+    "src/",
+]
 data_file = ".cov_cache/coverage.dat"
 
 [tool.coverage.report]
@@ -115,7 +139,11 @@ homepage = "https://tvdb-api-client.readthedocs.io/en/stable/"
 repository = "https://github.com/spapanik/tvdb_api_client"
 documentation = "https://tvdb-api-client.readthedocs.io/en/stable/"
 
-keywords = ["tvdb", "imdb", "tv series"]
+keywords = [
+    "tvdb",
+    "imdb",
+    "tv series",
+]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Operating System :: OS Independent",
@@ -131,20 +159,21 @@ pathurl = "^0.6"
 requests = "^2.0"
 
 [tool.poetry.group.dev.dependencies]
-ipdb = {version = "^0.13", python = "^3.9"}
-ipython = {version = "^8.12", python = "^3.9"}
-pipdeptree = "^2.7"
+ipdb = { version = "^0.13", python = "^3.10" }
+ipython = { version = "^8.21", python = "^3.10" }
+pickleshare = { version = "^0.7", python = "^3.10" }
+pipdeptree = "^2.13"
 
 [tool.poetry.group.lint.dependencies]
-black = "^23.3"
-mypy = "^1.4"
-ruff = "^0.0"
-types-requests = "^2.28"
+black = "^24.1"
+mypy = "^1.8"
+ruff = "^0.2"
+types-requests = "^2.0"
 
 [tool.poetry.group.test.dependencies]
-pytest = "^7.4"
-pytest-cov = "^4.0"
+pytest = "^8.0"
+pytest-cov = "^4.1"
 
 [tool.poetry.group.docs.dependencies]
-furo = "^2023.5"
-sphinx = "^7.0"
+furo = { version = "^2024.1", python = "^3.10" }
+sphinx = { version = "^7.2", python = "^3.10" }

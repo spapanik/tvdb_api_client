@@ -1,0 +1,45 @@
+$globals:
+  shell: bash
+  version: "6.0"
+  vars:
+    poetry_sync: "--sync"
+
+install:
+  phony: true
+  keep_ts: true
+  requires:
+    - poetry.lock
+  commands:
+    - "poetry install ${poetry_sync} ${poetry_extra}"
+
+format:
+  phony: true
+  requires:
+    - install
+  commands:
+    - black .
+    - ruff --fix-only .
+
+lint:
+  phony: true
+  requires:
+    - install
+  commands:
+    - black --check .
+    - poetry check --lock
+    - ruff .
+    - mypy .
+
+tests:
+  phony: true
+  requires:
+    - install
+  commands:
+    - "pytest ${pytest_args} ${pytest_path} ${.extra}"
+
+poetry.lock:
+  update: true
+  requires:
+    - pyproject.toml
+  commands:
+    - poetry lock

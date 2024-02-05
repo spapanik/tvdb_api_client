@@ -21,7 +21,7 @@ class Alias:
 
 @dataclass
 class Status:
-    id: int  # noqa: A003
+    id: int
     name: str
     record_type: str
     keep_updated: bool
@@ -38,7 +38,7 @@ class Status:
 
 @dataclass
 class Series:
-    id: int  # noqa: A003
+    id: int
     name: str
     slug: str
     image: URL | None
@@ -86,7 +86,7 @@ class Series:
 
 @dataclass
 class Episode:
-    id: int  # noqa: A003
+    id: int
     series_id: int
     name: str
     aired: date | None
