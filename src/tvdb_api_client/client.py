@@ -14,15 +14,13 @@ BASE_API_URL = URL("https://api4.thetvdb.com/v4/")
 
 
 class AbstractCache(Protocol):
-    def set(self, key: str, value: Any) -> None:  # noqa: A003
-        ...
+    def set(self, key: str, value: Any) -> None: ...
 
-    def get(self, key: str) -> Any:
-        ...
+    def get(self, key: str) -> Any: ...
 
 
 class _Cache(dict):  # type: ignore[type-arg]
-    def set(self, key: str, value: Any) -> None:  # noqa: A003
+    def set(self, key: str, value: Any) -> None:
         self[key] = value
 
 
@@ -58,10 +56,12 @@ class TVDBClient:
             timeout=(60, 120),
         )
         if response.status_code == 401:
-            raise ConnectionRefusedError("Invalid credentials.")
+            msg = "Invalid credentials."
+            raise ConnectionRefusedError(msg)
 
         if response.status_code != 200:
-            raise ConnectionError("Unexpected Response.")
+            msg = "Unexpected Response."
+            raise ConnectionError(msg)
 
         return cast(str, response.json()["data"]["token"])
 
@@ -79,12 +79,15 @@ class TVDBClient:
             return cast(dict[str, Any], response.json())
 
         if response.status_code in {400, 404}:
-            raise LookupError("There are no data for this term.")
+            msg = "There are no data for this term."
+            raise LookupError(msg)
 
         if response.status_code == 401:
-            raise ConnectionRefusedError("Invalid credentials.")
+            msg = "Invalid credentials."
+            raise ConnectionRefusedError(msg)
 
-        raise ConnectionError("Unexpected Response.")
+        msg = "Unexpected Response."
+        raise ConnectionError(msg)
 
     def get_raw_series_by_id(
         self, tvdb_id: int, *, refresh_cache: bool = False
