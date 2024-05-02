@@ -18,7 +18,7 @@ format:
     - install
   commands:
     - black .
-    - ruff --fix-only .
+    - ruff check --fix-only .
 
 lint:
   phony: true
@@ -27,7 +27,7 @@ lint:
   commands:
     - black --check .
     - poetry check --lock
-    - ruff .
+    - ruff check .
     - mypy .
 
 tests:
