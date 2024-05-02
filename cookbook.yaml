@@ -2,7 +2,7 @@ $globals:
   shell: bash
   version: "6.0"
   vars:
-    poetry_sync: "--sync"
+    poetry_sync: --sync
 
 install:
   phony: true
@@ -10,7 +10,7 @@ install:
   requires:
     - poetry.lock
   commands:
-    - "poetry install ${poetry_sync} ${poetry_extra}"
+    - poetry install ${poetry_sync} ${poetry_extra}
 
 format:
   phony: true
@@ -35,7 +35,7 @@ tests:
   requires:
     - install
   commands:
-    - "pytest ${pytest_args} ${pytest_path} ${.extra}"
+    - pytest ${pytest_args} ${pytest_path} ${.extra}
 
 poetry.lock:
   update: true
