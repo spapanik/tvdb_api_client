@@ -1,0 +1,50 @@
+site_name: "TVDB API Client"
+
+repo_url: https://github.com/spapanik/tvdb_api_client
+
+nav:
+  - Home: README.md
+  - Installation: installation.md
+  - Usage: usage.md
+  - About:
+      - License: LICENSE.md
+      - Changelog: CHANGELOG.md
+      - Code of Conduct: CODE_OF_CONDUCT.md
+
+markdown_extensions:
+  - pymdownx.highlight:
+      use_pygments: true
+  - admonition
+  - pymdownx.superfences
+  - pymdownx.details
+  - pymdownx.snippets
+
+theme:
+  name: material
+
+  icon:
+    repo: fontawesome/brands/github
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - navigation.indexes
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - search
+    - search.suggest
+    - search.share
