@@ -16,6 +16,6 @@ dist/
 *.egg-info/
 
 # local dev
-/cookbook.toml.d/
+/cookbook.yaml.d/
 local.*
 local/
