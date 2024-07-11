@@ -1,16 +1,16 @@
 $globals:
   shell: bash
-  version: "6.0"
+  version: "7.0"
   vars:
-    poetry_sync: --sync
+    p_sync: --sync
 
 install:
   phony: true
   keep_ts: true
   requires:
-    - poetry.lock
+    - p-lock.toml
   commands:
-    - poetry install ${poetry_sync} ${poetry_extra}
+    - p install ${p_sync} ${.extra}
 
 format:
   phony: true
@@ -26,7 +26,7 @@ lint:
     - install
   commands:
     - black --check .
-    - poetry check --lock
+    - p check
     - ruff check .
     - mypy .
 
@@ -35,11 +35,11 @@ tests:
   requires:
     - install
   commands:
-    - pytest ${pytest_args} ${pytest_path} ${.extra}
+    - pytest ${.extra}
 
-poetry.lock:
+p-lock.toml:
   update: true
   requires:
     - pyproject.toml
   commands:
-    - poetry lock
+    - p lock

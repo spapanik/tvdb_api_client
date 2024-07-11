@@ -5,17 +5,12 @@ __pycache__/
 .ruff_cache/
 .cov_cache/
 
-# installation artifacts
+# installation/build artifacts
 .yamk/
-poetry.lock
-
-# Distribution / packaging
-docs/build/
-pip-wheel-metadata/
 dist/
-*.egg-info/
+p-lock.toml
 
 # local dev
 /cookbook.yaml.d/
-local.*
 local/
+local.*
