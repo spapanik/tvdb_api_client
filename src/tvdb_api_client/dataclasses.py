@@ -1,12 +1,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import date, datetime
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pathurl import URL
 
 from tvdb_api_client.utils import get_tvdb_date, get_tvdb_datetime
+
+if TYPE_CHECKING:
+    from datetime import date, datetime
 
 
 @dataclass

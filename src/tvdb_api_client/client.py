@@ -29,7 +29,7 @@ class TVDBClient:
 
     def __init__(
         self, api_key: str, cache: AbstractCache | None = None, pin: str | None = None
-    ):
+    ) -> None:
         self._auth_data = {"apikey": api_key}
         if pin is not None:
             self._auth_data["pin"] = pin
