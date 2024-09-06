@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from base64 import urlsafe_b64decode
+from http import HTTPStatus
 from typing import Any, Protocol, cast
 
 import requests
@@ -55,11 +56,11 @@ class TVDBClient:
             data=json.dumps(self._auth_data),
             timeout=(60, 120),
         )
-        if response.status_code == 401:
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
             msg = "Invalid credentials."
             raise ConnectionRefusedError(msg)
 
-        if response.status_code != 200:
+        if response.status_code != HTTPStatus.OK:
             msg = "Unexpected Response."
             raise ConnectionError(msg)
 
@@ -75,14 +76,14 @@ class TVDBClient:
         headers = {"accept": "application/json", "Authorization": f"Bearer {token}"}
         response = requests.get(url.string, headers=headers, timeout=(60, 120))
 
-        if response.status_code == 200:
+        if response.status_code == HTTPStatus.OK:
             return cast(dict[str, Any], response.json())
 
-        if response.status_code in {400, 404}:
+        if response.status_code in {HTTPStatus.BAD_REQUEST, HTTPStatus.NOT_FOUND}:
             msg = "There are no data for this term."
             raise LookupError(msg)
 
-        if response.status_code == 401:
+        if response.status_code == HTTPStatus.UNAUTHORIZED:
             msg = "Invalid credentials."
             raise ConnectionRefusedError(msg)
 
