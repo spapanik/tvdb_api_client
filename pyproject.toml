@@ -11,7 +11,7 @@ version = "0.6.0"
 authors = [
     { name = "Stephanos Kuma", email = "stephanos@kuma.ai" },
 ]
-license = { text = "LGPLv3+" }
+license = { text = "BSD-3-Clause" }
 
 readme = "docs/README.md"
 description = "A python client for TVDB rest API"
