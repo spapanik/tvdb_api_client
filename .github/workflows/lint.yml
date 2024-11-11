@@ -1,4 +1,4 @@
-name: tests
+name: lint
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  unittest-python:
+  lint-python:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -54,7 +54,7 @@ jobs:
           key: ${{ matrix.os }}-${{ matrix.python-version }}-lint-${{ hashFiles('pyproject.toml') }}
       - name: Install dependencies
         run: |
-          yam install -g main -g test
-      - name: Test the project
+          yam install -g main -g lint -g test
+      - name: Lint the project
         run: |
-          yam -e tests
+          yam -e lint

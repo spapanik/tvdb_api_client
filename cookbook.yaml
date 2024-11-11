@@ -4,6 +4,16 @@ $globals:
   vars:
     p_sync: --sync
 
+build:
+  phony: true
+  commands:
+    - p build ${.extra}
+
+clean:
+  phony: true
+  commands:
+    - rm -f dist/*
+
 install:
   phony: true
   keep_ts: true
