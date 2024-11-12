@@ -1,5 +1,4 @@
 $globals:
-  shell: bash
   version: "8.1"
   vars:
     p_sync: --sync
