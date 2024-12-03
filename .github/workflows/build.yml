@@ -53,11 +53,6 @@ jobs:
           uv venv .venv
           "VIRTUAL_ENV=.venv" | Out-File -FilePath $env:GITHUB_ENV -Append
           "$PWD/.venv/Scripts" | Out-File -FilePath $env:GITHUB_PATH -Append
-      - name: Use cache
-        uses: actions/cache@v4
-        with:
-          path: .venv
-          key: ${{ matrix.os }}-${{ matrix.python-version }}-lint-${{ hashFiles('pyproject.toml') }}
       - name: Build the project
         run: |
           yam -e build
