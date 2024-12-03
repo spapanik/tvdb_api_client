@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "phosphorus>=0.7",
+    "phosphorus>=0.8",
 ]
 build-backend = "phosphorus.construction.api"
 
@@ -48,7 +48,7 @@ dev = [
 lint = [
     "black~=24.10",
     "mypy~=1.13",
-    "ruff~=0.7",
+    "ruff~=0.8",
     "types-requests~=2.0",
 ]
 test = [
