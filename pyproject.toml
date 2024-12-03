@@ -181,7 +181,7 @@ forced-separate = [
 split-on-trailing-comma = false
 
 [tool.pytest.ini_options]
-addopts = "-ra -v --cov"
+addopts = "-ra -v"
 testpaths = "tests"
 
 [tool.coverage.run]
