@@ -1,5 +1,7 @@
 # tvdb_api_client: an unofficial API for the TVDB
 
+[![build][build_badge]][build_url]
+[![lint][lint_badge]][lint_url]
 [![tests][test_badge]][test_url]
 [![license][licence_badge]][licence_url]
 [![pypi][pypi_badge]][pypi_url]
@@ -53,7 +55,7 @@ following info:
 [test_badge]: https://github.com/spapanik/tvdb_api_client/actions/workflows/tests.yml/badge.svg
 [test_url]: https://github.com/spapanik/tvdb_api_client/actions/workflows/tests.yml
 [licence_badge]: https://img.shields.io/pypi/l/tvdb-api-client
-[licence_url]: https://github.com/spapanik/tvdb_api_client/blob/main/docs/LICENSE.md
+[licence_url]: https://tvdb-api-client.readthedocs.io/en/stable/LICENSE/
 [pypi_badge]: https://img.shields.io/pypi/v/tvdb-api-client
 [pypi_url]: https://pypi.org/project/tvdb-api-client
 [pepy_badge]: https://pepy.tech/badge/tvdb-api-client
@@ -65,4 +67,4 @@ following info:
 [ruff_badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v1.json
 [ruff_url]: https://github.com/charliermarsh/ruff
 [Documentation]: https://tvdb-api-client.readthedocs.io/en/stable/
-[Changelog]: https://github.com/spapanik/tvdb_api_client/blob/main/docs/CHANGELOG.md
+[Changelog]: https://tvdb-api-client.readthedocs.io/en/stable/CHANGELOG/
