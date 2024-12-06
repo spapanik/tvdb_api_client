@@ -93,7 +93,7 @@ class TVDBClient:
     def get_raw_series_by_id(
         self, tvdb_id: int, *, refresh_cache: bool = False
     ) -> dict[str, Any]:
-        """Get the series info by its tvdb ib as returned by the TVDB"""
+        """Get the series info by its tvdb ib as returned by the TVDB."""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
         data: dict[str, Any] | None = self._cache.get(key)
         if data is None or refresh_cache:
@@ -109,7 +109,7 @@ class TVDBClient:
     def get_raw_episodes_by_series(
         self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
     ) -> list[dict[str, Any]]:
-        """Get all the episodes for a TV series as returned by the TVDB"""
+        """Get all the episodes for a TV series as returned by the TVDB."""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
         data: list[dict[str, Any]] | None = self._cache.get(key)
         if data is None or refresh_cache:
@@ -122,7 +122,7 @@ class TVDBClient:
     def get_episodes_by_series(
         self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
     ) -> list[Episode]:
-        """Get all the episodes for a TV series"""
+        """Get all the episodes for a TV series."""
         raw_data = self.get_raw_episodes_by_series(
             tvdb_id, season_type, refresh_cache=refresh_cache
         )
