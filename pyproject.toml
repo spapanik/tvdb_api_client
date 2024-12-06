@@ -69,7 +69,11 @@ target-version = [
 
 [tool.mypy]
 check_untyped_defs = true
+disallow_any_decorated = true
+disallow_any_explicit = true
+disallow_any_expr = false          # many builtins are Any
 disallow_any_generics = true
+disallow_any_unimported = true
 disallow_incomplete_defs = true
 disallow_subclassing_any = true
 disallow_untyped_calls = true
@@ -78,13 +82,18 @@ disallow_untyped_defs = true
 extra_checks = true
 ignore_missing_imports = true
 no_implicit_reexport = true
+show_column_numbers = true
 show_error_codes = true
 strict_equality = true
-warn_return_any = true
 warn_redundant_casts = true
+warn_return_any = true
+warn_unused_configs = true
 warn_unused_ignores = true
 warn_unreachable = true
-warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_any_decorated = false # mock.MagicMock is Any
 
 [tool.ruff]
 src = [
@@ -94,75 +103,23 @@ target-version = "py39"
 
 [tool.ruff.lint]
 select = [
-    "A",
-    "ANN",
-    "ARG",
-    "ASYNC",
-    "B",
-    "BLE",
-    "C4",
-    "COM",
-    "DTZ",
-    "E",
-    "EM",
-    "ERA",
-    "EXE",
-    "F",
-    "FA",
-    "FBT",
-    "FIX",
-    "FLY",
-    "FURB",
-    "G",
-    "I",
-    "ICN",
-    "INP",
-    "ISC",
-    "LOG",
-    "N",
-    "PGH",
-    "PERF",
-    "PIE",
-    "PL",
-    "PT",
-    "PTH",
-    "PYI",
-    "Q",
-    "RET",
-    "RSE",
-    "RUF",
-    "S",
-    "SIM",
-    "SLF",
-    "SLOT",
-    "T10",
-    "TCH",
-    "TD",
-    "TID",
-    "TRY",
-    "UP",
-    "W",
-    "YTT",
+    "ALL",
 ]
 ignore = [
-    "ANN101",
-    "ANN102",
-    "ANN401",
-    "COM812",
-    "E501",
-    "FIX002",
-    "PLR09",
-    "TD002",
-    "TD003",
-    "TRY003",
+    "C901",   # Adding a limit to complexity is too arbitrary
+    "COM812", # Avoid magic trailing commas
+    "D10",    # Not everything needs a docstring
+    "D203",   # Prefer `no-blank-line-before-class` (D211)
+    "D213",   # Prefer `multi-line-summary-first-line` (D212)
+    "E501",   # Avoid clashes with black
+    "PLR09",  # Adding a limit to complexity is too arbitrary
 ]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**" = [
-    "FBT001",
-    "PLR2004",
-    "PT011",
-    "S101",
+    "FBT001",  # Test arguments are handled by pytest
+    "PLR2004", # Tests should contain magic number comparisons
+    "S101",    # Pytest needs assert statements
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
@@ -194,7 +151,7 @@ data_file = ".cov_cache/coverage.dat"
 exclude_also = [
     "if TYPE_CHECKING:",
 ]
-fail_under = 50
+fail_under = 60
 precision = 2
 show_missing = true
 skip_covered = true

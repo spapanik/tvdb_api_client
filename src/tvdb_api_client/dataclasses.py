@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from pathurl import URL
 
@@ -10,6 +10,13 @@ from tvdb_api_client.utils import get_tvdb_date, get_tvdb_datetime
 if TYPE_CHECKING:
     from datetime import date, datetime
 
+    from tvdb_api_client.lib.types import (
+        AliasRawData,
+        EpisodeRawData,
+        SeriesRawData,
+        StatusRawData,
+    )
+
 
 @dataclass
 class Alias:
@@ -17,7 +24,7 @@ class Alias:
     name: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: dict[str, Any]) -> Alias:
+    def from_raw_data(cls, raw_data: AliasRawData) -> Alias:
         return cls(language=raw_data["language"], name=raw_data["name"])
 
 
@@ -29,7 +36,7 @@ class Status:
     keep_updated: bool
 
     @classmethod
-    def from_raw_data(cls, raw_data: dict[str, Any]) -> Status:
+    def from_raw_data(cls, raw_data: StatusRawData) -> Status:
         return cls(
             id=raw_data["id"],
             name=raw_data["name"],
@@ -61,7 +68,7 @@ class Series:
     overview: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: dict[str, Any]) -> Series:
+    def from_raw_data(cls, raw_data: SeriesRawData) -> Series:
         image_url = raw_data["image"]
         return cls(
             id=raw_data["id"],
@@ -105,7 +112,7 @@ class Episode:
     finale_type: str
 
     @classmethod
-    def from_raw_data(cls, raw_data: dict[str, Any]) -> Episode:
+    def from_raw_data(cls, raw_data: EpisodeRawData) -> Episode:
         image_url = raw_data["image"]
         return cls(
             id=raw_data["id"],
