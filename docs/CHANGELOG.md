@@ -6,10 +6,17 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+### Added
+
+-   Added python 3.11 support
+-   Added python 3.12 support
+-   Added python 3.13 support
+
 ### Removed
 
 -   Dropped support for TVDB APIv3
 -   Drop python 3.7 support
+-   Drop python 3.8 support
 
 ## [0.6.0] - 2022-03-08
 
