@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import Any, Protocol, Union, cast  # py3.9: remove Union
+from typing import Any, Protocol, Union, cast  # upgrade: py3.9: remove Union
 
 import requests
 from pathurl import URL
