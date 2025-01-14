@@ -8,7 +8,7 @@ __pycache__/
 # installation/build artifacts
 .yamk/
 dist/
-p-lock.toml
+uv.lock
 
 # local dev
 /cookbook.yaml.d/

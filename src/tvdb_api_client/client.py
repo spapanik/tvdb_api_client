@@ -8,8 +8,8 @@ from typing import Any, Protocol, Union, cast  # upgrade: py3.9: remove Union
 import requests
 from pathurl import URL
 
-from tvdb_api_client.dataclasses import Episode, Series
-from tvdb_api_client.lib.types import EpisodeRawData, FullRawData, SeriesRawData
+from tvdb_api_client.lib.type_defs import EpisodeRawData, FullRawData, SeriesRawData
+from tvdb_api_client.models import Episode, Series
 from tvdb_api_client.utils import now
 
 BASE_API_URL = URL("https://api4.thetvdb.com/v4/")

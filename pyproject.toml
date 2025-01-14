@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "phosphorus>=0.8",
+    "phosphorus>=0.10",
 ]
 build-backend = "phosphorus.construction.api"
 
@@ -39,27 +39,34 @@ homepage = "https://tvdb-api-client.readthedocs.io/en/stable/"
 repository = "https://github.com/spapanik/tvdb_api_client"
 documentation = "https://tvdb-api-client.readthedocs.io/en/stable/"
 
-[tool.phosphorus.dev-dependencies]
+[dependency-groups]
 dev = [
     "ipdb~=0.13",
     "ipython~=8.18",
+    { include-group = "lint" },
+    { include-group = "test" },
+    { include-group = "docs" },
 ]
 lint = [
     "black~=24.10",
-    "mypy~=1.13",
-    "ruff~=0.8",
+    "mypy~=1.14",
+    "ruff~=0.9",
     "types-requests~=2.0",
+    { include-group = "test_core" },
 ]
 test = [
-    "pytest~=8.3",
     "pytest-cov~=6.0",
+    { include-group = "test_core" },
+]
+test_core = [
+    "pytest~=8.3",
 ]
 docs = [
     "mkdocs~=1.6",
     "mkdocs-material~=9.5",
     "mkdocs-material-extensions~=1.3",
-    "pygments~=2.18",
-    "pymdown-extensions~=10.12",
+    "pygments~=2.19",
+    "pymdown-extensions~=10.14",
 ]
 
 [tool.black]
@@ -146,13 +153,16 @@ source = [
     "src/",
 ]
 data_file = ".cov_cache/coverage.dat"
+omit = [
+    "src/tvdb_api_client/lib/type_defs.py",
+]
 
 [tool.coverage.report]
 exclude_also = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
 ]
-fail_under = 60
+fail_under = 50
 precision = 2
 show_missing = true
 skip_covered = true

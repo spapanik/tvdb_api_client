@@ -10,7 +10,7 @@ from tvdb_api_client.utils import get_tvdb_date, get_tvdb_datetime
 if TYPE_CHECKING:
     from datetime import date, datetime
 
-    from tvdb_api_client.lib.types import (
+    from tvdb_api_client.lib.type_defs import (
         AliasRawData,
         EpisodeRawData,
         SeriesRawData,
