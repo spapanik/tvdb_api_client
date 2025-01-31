@@ -18,6 +18,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 -   Drop python 3.7 support
 -   Drop python 3.8 support
 
+### Changed
+
+-   The API Key and PIN can now be passed as env vars or from a file
+
 ## [0.6.0] - 2022-03-08
 
 ### Added

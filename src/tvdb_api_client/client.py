@@ -6,6 +6,7 @@ from http import HTTPStatus
 from typing import Any, Protocol, Union, cast  # upgrade: py3.9: remove Union
 
 import requests
+from dj_settings import get_setting
 from pathurl import URL
 from pyutilkit.date_utils import now
 
@@ -25,16 +26,45 @@ class _Cache(dict):  # type: ignore[type-arg]
         self[key] = value
 
 
-class TVDBClient:
-    __slots__ = ["_auth_data", "_cache"]
+class TheTVDBClient:
+    __slots__ = ("_auth_data", "_cache")
 
     def __init__(
-        self, api_key: str, cache: AbstractCache | None = None, pin: str | None = None
+        self,
+        api_key: str | None = None,
+        cache: AbstractCache | None = None,
+        pin: str | None = None,
     ) -> None:
-        self._auth_data = {"apikey": api_key}
-        if pin is not None:
-            self._auth_data["pin"] = pin
         self._cache = cache or _Cache()
+        self._auth_data = self._get_auth_data(api_key, pin)
+
+    @staticmethod
+    def _get_auth_data(
+        api_key: str | None = None, pin: str | None = None
+    ) -> dict[str, str]:
+        filename = "the_tvdb.yaml"
+        sections = ["client"]
+
+        if api_key is None:
+            api_key = get_setting(
+                "api_key",
+                filename=filename,
+                sections=sections,
+                use_env="TVDB_API_KEY_V4",
+            )
+        if api_key is None:
+            msg = "API Key is required."
+            raise ValueError(msg)
+        output = {"apikey": api_key}
+
+        if pin is None:
+            pin = get_setting(
+                "pin", filename=filename, sections=sections, use_env="TVDB_PIN_V4"
+            )
+        if pin is not None:
+            output["pin"] = pin
+
+        return output
 
     @staticmethod
     def _get_expiry(token: str | None) -> int:

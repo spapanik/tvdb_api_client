@@ -1,3 +1,3 @@
-from tvdb_api_client.client import TVDBClient
+from tvdb_api_client.client import TheTVDBClient
 
-__all__ = ["TVDBClient"]
+__all__ = ["TheTVDBClient"]

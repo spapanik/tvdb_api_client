@@ -12,4 +12,4 @@ class TestCache:
 class TestTVDBClient:
     @staticmethod
     def test_init_without_cache() -> None:
-        client.TVDBClient("api_key")
+        client.TheTVDBClient()
