@@ -35,6 +35,8 @@ class SeriesRawData(TypedDict):
     lastUpdated: str
     averageRuntime: int
     overview: str
+    episodes: EpisodeRawData | None
+    year: str
 
 
 class EpisodeRawData(TypedDict):
@@ -53,6 +55,9 @@ class EpisodeRawData(TypedDict):
     seasonNumber: int
     lastUpdated: str
     finaleType: str
+    seasons: int | None
+    absoluteNumber: int
+    year: str
 
 
 class FullRawData(TypedDict):
