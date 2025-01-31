@@ -3,22 +3,22 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import Any, Protocol, Union, cast  # upgrade: py3.9: remove Union
+from typing import Union, cast  # upgrade: py3.9: remove Union
 
 import requests
 from dj_settings import get_setting
 from pathurl import URL
 from pyutilkit.date_utils import now
 
-from tvdb_api_client.lib.type_defs import EpisodeRawData, FullRawData, SeriesRawData
+from tvdb_api_client.lib.type_defs import (
+    AbstractCache,
+    EpisodeRawData,
+    FullRawData,
+    SeriesRawData,
+)
 from tvdb_api_client.models import Episode, Series
 
 BASE_API_URL = URL("https://api4.thetvdb.com/v4/")
-
-
-class AbstractCache(Protocol):
-    def set(self, key: str, value: object) -> None: ...
-    def get(self, key: str) -> Any: ...  # type: ignore[misc]  # noqa: ANN401
 
 
 class _Cache(dict):  # type: ignore[type-arg]

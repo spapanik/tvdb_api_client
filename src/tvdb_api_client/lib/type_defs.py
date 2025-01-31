@@ -1,6 +1,11 @@
 from __future__ import annotations
 
-from typing import TypedDict
+from typing import Any, Protocol, TypedDict  # upgrade: py3.9: remove Union
+
+
+class AbstractCache(Protocol):
+    def set(self, key: str, value: object) -> None: ...
+    def get(self, key: str) -> Any: ...  # type: ignore[misc]  # noqa: ANN401
 
 
 class AliasRawData(TypedDict):
