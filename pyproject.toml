@@ -164,7 +164,7 @@ exclude_also = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
 ]
-fail_under = 65
+fail_under = 100
 precision = 2
 show_missing = true
 skip_covered = true

@@ -4,6 +4,8 @@ from typing import TYPE_CHECKING
 
 import pytest
 
+from tvdb_api_client.client import TheTVDBClient
+
 if TYPE_CHECKING:
     from tvdb_api_client.lib.type_defs import (
         AliasRawData,
@@ -106,3 +108,8 @@ def raw_episode_data() -> EpisodeRawData:
         "finaleType": "series",
         "year": "2008",
     }
+
+
+@pytest.fixture
+def the_tvdb_client() -> TheTVDBClient:
+    return TheTVDBClient(api_key="1234", pin="1234")
