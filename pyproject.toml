@@ -6,7 +6,7 @@ build-backend = "phosphorus.construction.api"
 
 [project]
 name = "tvdb_api_client"
-version = "0.6.0"
+version = "0.7.0"
 
 authors = [
     { name = "Stephanos Kuma", email = "stephanos@kuma.ai" },
