@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Union, cast  # upgrade: py3.9: remove Union
+from typing import Union, cast  # upgrade: py3.9: remove Union
 
 import requests
 from dj_settings import get_setting
@@ -17,9 +17,6 @@ from tvdb_api_client.lib.type_defs import (
     SeriesRawData,
 )
 from tvdb_api_client.models import Episode, Series
-
-if TYPE_CHECKING:
-    from pathurl import URL
 
 
 class _Cache(dict):  # type: ignore[type-arg]
@@ -97,7 +94,8 @@ class TheTVDBClient:
 
         return cast(str, response.json()["data"]["token"])
 
-    def _get(self, url: URL) -> dict[str, object]:
+    def get(self, path: str) -> dict[str, object]:
+        url = BASE_API_URL.join(path)
         cache_token_key = "tvdb_v4_token"  # noqa: S105
         token = cast(Union[str, None], self._cache.get(cache_token_key))
         if self._get_expiry(token) < now().timestamp() + 60:
@@ -128,8 +126,8 @@ class TheTVDBClient:
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
         data = cast(Union[SeriesRawData, None], self._cache.get(key))
         if data is None or refresh_cache:
-            url = BASE_API_URL.join(f"series/{tvdb_id}")
-            data = cast(SeriesRawData, self._get(url)["data"])
+            path = f"series/{tvdb_id}"
+            data = cast(SeriesRawData, self.get(path)["data"])
             self._cache.set(key, data)
         return data
 
@@ -144,8 +142,8 @@ class TheTVDBClient:
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
         data = cast(Union[list[EpisodeRawData], None], self._cache.get(key))
         if data is None or refresh_cache:
-            base_url = BASE_API_URL.join(f"series/{tvdb_id}/episodes/{season_type}")
-            full_data = cast(FullRawData, self._get(base_url)["data"])
+            path = f"series/{tvdb_id}/episodes/{season_type}"
+            full_data = cast(FullRawData, self.get(path)["data"])
             data = full_data["episodes"]
             self._cache.set(key, data)
         return data
