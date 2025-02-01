@@ -3,13 +3,13 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import Union, cast  # upgrade: py3.9: remove Union
+from typing import TYPE_CHECKING, Union, cast  # upgrade: py3.9: remove Union
 
 import requests
 from dj_settings import get_setting
-from pathurl import URL
 from pyutilkit.date_utils import now
 
+from tvdb_api_client.constants import BASE_API_URL
 from tvdb_api_client.lib.type_defs import (
     AbstractCache,
     EpisodeRawData,
@@ -18,7 +18,8 @@ from tvdb_api_client.lib.type_defs import (
 )
 from tvdb_api_client.models import Episode, Series
 
-BASE_API_URL = URL("https://api4.thetvdb.com/v4/")
+if TYPE_CHECKING:
+    from pathurl import URL
 
 
 class _Cache(dict):  # type: ignore[type-arg]
