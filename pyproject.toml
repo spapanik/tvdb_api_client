@@ -50,8 +50,7 @@ dev = [
     { include-group = "docs" },
 ]
 lint = [
-    "black~=24.10",
-    "mypy~=1.14",
+    "mypy~=1.15",
     "ruff~=0.9",
     "types-requests~=2.0",
     { include-group = "test_core" },
@@ -65,15 +64,10 @@ test_core = [
 ]
 docs = [
     "mkdocs~=1.6",
-    "mkdocs-material~=9.5",
+    "mkdocs-material~=9.6",
     "mkdocs-material-extensions~=1.3",
     "pygments~=2.19",
     "pymdown-extensions~=10.14",
-]
-
-[tool.black]
-target-version = [
-    "py39",
 ]
 
 [tool.mypy]
@@ -116,11 +110,10 @@ select = [
 ]
 ignore = [
     "C901",   # Adding a limit to complexity is too arbitrary
-    "COM812", # Avoid magic trailing commas
+    "COM812", # Avoid conflicts with the formatter
     "D10",    # Not everything needs a docstring
     "D203",   # Prefer `no-blank-line-before-class` (D211)
     "D213",   # Prefer `multi-line-summary-first-line` (D212)
-    "E501",   # Avoid clashes with black
     "PLR09",  # Adding a limit to complexity is too arbitrary
 ]
 
@@ -163,6 +156,7 @@ omit = [
 exclude_also = [
     "if TYPE_CHECKING:",
     "raise NotImplementedError",
+    "raise UnreachableCodeError",
 ]
 fail_under = 100
 precision = 2

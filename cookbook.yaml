@@ -25,7 +25,7 @@ format:
   requires:
     - install
   commands:
-    - ${RUNNER} black .
+    - ${RUNNER} ruff format .
     - ${RUNNER} ruff check --fix-only .
 
 lint:
@@ -33,9 +33,9 @@ lint:
   requires:
     - install
   commands:
-    - ${RUNNER} black --check .
-    - ${RUNNER} uv lock --check
     - ${RUNNER} ruff check .
+    - ${RUNNER} ruff format --check .
+    - ${RUNNER} uv lock --check
     - ${RUNNER} mypy .
 
 tests:

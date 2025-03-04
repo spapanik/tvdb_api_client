@@ -75,9 +75,10 @@ def raw_series_data() -> SeriesRawData:
         "averageRuntime": 45,
         "episodes": None,
         "overview": (
-            "Today Detective Brett Hopper will be accused of shooting state attorney Alberto Garza. "
-            "He will offer his rock solid alibi. He will realize he's been framed. "
-            "And he will run. Then, he will wake up and start the day over again."
+            "Today Detective Brett Hopper will be accused of shooting state attorney "
+            "Alberto Garza. He will offer his rock solid alibi. He will realize he's "
+            "been framed. And he will run. Then, he will wake up and start the day "
+            "over again."
         ),
         "year": "2006",
     }

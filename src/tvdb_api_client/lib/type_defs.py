@@ -5,7 +5,7 @@ from typing import Any, Protocol, TypedDict  # upgrade: py3.9: remove Union
 
 class AbstractCache(Protocol):
     def set(self, key: str, value: object) -> None: ...
-    def get(self, key: str) -> Any: ...  # type: ignore[misc]  # noqa: ANN401
+    def get(self, key: str) -> Any: ...  # type: ignore[explicit-any]  # noqa: ANN401
 
 
 class AliasRawData(TypedDict):
