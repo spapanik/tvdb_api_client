@@ -3,20 +3,22 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import Union, cast  # upgrade: py3.9: remove Union
+from typing import TYPE_CHECKING, Union, cast  # upgrade: py3.9: remove Union
 
 import requests
 from dj_settings import get_setting
 from pyutilkit.date_utils import now
 
 from tvdb_api_client.constants import BASE_API_URL
-from tvdb_api_client.lib.type_defs import (
-    AbstractCache,
-    EpisodeRawData,
-    FullRawData,
-    SeriesRawData,
-)
 from tvdb_api_client.models import Episode, Series
+
+if TYPE_CHECKING:
+    from tvdb_api_client.lib.type_defs import (
+        AbstractCache,
+        EpisodeRawData,
+        FullRawData,
+        SeriesRawData,
+    )
 
 
 class _Cache(dict):  # type: ignore[type-arg]
@@ -72,7 +74,7 @@ class TheTVDBClient:
         _, payload, *_ = token.split(".")
         padding = "=" * (4 - len(payload) % 4)
         data = json.loads(urlsafe_b64decode(payload + padding).decode())
-        return cast(int, data["exp"])
+        return cast("int", data["exp"])
 
     def _generate_token(self) -> str:
         login_endpoint = "login"
@@ -92,12 +94,12 @@ class TheTVDBClient:
             msg = "Unexpected Response."
             raise ConnectionError(msg)
 
-        return cast(str, response.json()["data"]["token"])
+        return cast("str", response.json()["data"]["token"])
 
     def get(self, path: str) -> dict[str, object]:
         url = BASE_API_URL.join(path)
         cache_token_key = "tvdb_v4_token"  # noqa: S105
-        token = cast(Union[str, None], self._cache.get(cache_token_key))
+        token = cast("str | None", self._cache.get(cache_token_key))
         if self._get_expiry(token) < now().timestamp() + 60:
             token = self._generate_token()
             self._cache.set(cache_token_key, token)
@@ -106,7 +108,7 @@ class TheTVDBClient:
         response = requests.get(url.string, headers=headers, timeout=(60, 120))
 
         if response.status_code == HTTPStatus.OK:
-            return cast(dict[str, object], response.json())
+            return cast("dict[str, object]", response.json())
 
         if response.status_code in {HTTPStatus.BAD_REQUEST, HTTPStatus.NOT_FOUND}:
             msg = "There are no data for this term."
@@ -124,10 +126,10 @@ class TheTVDBClient:
     ) -> SeriesRawData:
         """Get the series info by its tvdb ib as returned by the TVDB."""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data = cast(Union[SeriesRawData, None], self._cache.get(key))
+        data = cast("Union[SeriesRawData, None]", self._cache.get(key))
         if data is None or refresh_cache:
             path = f"series/{tvdb_id}"
-            data = cast(SeriesRawData, self.get(path)["data"])
+            data = cast("SeriesRawData", self.get(path)["data"])
             self._cache.set(key, data)
         return data
 
@@ -140,10 +142,10 @@ class TheTVDBClient:
     ) -> list[EpisodeRawData]:
         """Get all the episodes for a TV series as returned by the TVDB."""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data = cast(Union[list[EpisodeRawData], None], self._cache.get(key))
+        data = cast("Union[list[EpisodeRawData], None]", self._cache.get(key))
         if data is None or refresh_cache:
             path = f"series/{tvdb_id}/episodes/{season_type}"
-            full_data = cast(FullRawData, self.get(path)["data"])
+            full_data = cast("FullRawData", self.get(path)["data"])
             data = full_data["episodes"]
             self._cache.set(key, data)
         return data
