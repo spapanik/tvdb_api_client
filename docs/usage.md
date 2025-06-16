@@ -21,11 +21,11 @@ will be created.
 The TVDB API Client is a class that offers the following public
 methods:
 
--   get
--   get_raw_series_by_id
--   get_series_by_id
--   get_raw_episodes_by_series
--   get_episodes_by_series
+- get
+- get_raw_series_by_id
+- get_series_by_id
+- get_raw_episodes_by_series
+- get_episodes_by_series
 
 ???+ tip "Refreshing cache"
 
