@@ -33,7 +33,7 @@ dependencies = [
     "dj_settings~=8.0",
     "pathurl~=0.7",
     "pyutilkit~=0.10",
-    "requests~=2.0",
+    "requests>=2.32.4,<3.0",
 ]
 
 [project.urls]
