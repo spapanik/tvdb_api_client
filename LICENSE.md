@@ -1,6 +1,6 @@
 # BSD 3-Clause License
 
-Copyright &copy; 2024 Stephanos Kuma.
+Copyright &copy; 2025 Stephanos Kuma.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
