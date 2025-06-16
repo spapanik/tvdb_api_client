@@ -24,7 +24,7 @@ dependencies = [
 
 ## Python Version Requirement
 
-Please note that `tvdb_api_client` requires Python 3.9 or higher. If you're not using uv,
+Please note that `tvdb_api_client` requires Python 3.10 or higher. If you're not using uv,
 please ensure that you have such a version installed in your system.
 
 [uv]: https://github.com/astral-sh/uv

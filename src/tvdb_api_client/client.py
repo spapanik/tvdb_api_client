@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from base64 import urlsafe_b64decode
 from http import HTTPStatus
-from typing import TYPE_CHECKING, Union, cast  # upgrade: py3.9: remove Union
+from typing import TYPE_CHECKING, cast
 
 import requests
 from dj_settings import get_setting
@@ -53,7 +53,7 @@ class TheTVDBClient:
                 use_env="TVDB_API_KEY_V4",
             )
         if api_key is None:
-            msg = "API Key is required."
+            msg = "API Key is required."  # type: ignore[unreachable]
             raise ValueError(msg)
         output = {"apikey": api_key}
 
@@ -126,7 +126,7 @@ class TheTVDBClient:
     ) -> SeriesRawData:
         """Get the series info by its tvdb ib as returned by the TVDB."""
         key = f"get_series_by_id::tvdb_id:{tvdb_id}"
-        data = cast("Union[SeriesRawData, None]", self._cache.get(key))
+        data = cast("SeriesRawData | None", self._cache.get(key))
         if data is None or refresh_cache:
             path = f"series/{tvdb_id}"
             data = cast("SeriesRawData", self.get(path)["data"])
@@ -142,7 +142,7 @@ class TheTVDBClient:
     ) -> list[EpisodeRawData]:
         """Get all the episodes for a TV series as returned by the TVDB."""
         key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data = cast("Union[list[EpisodeRawData], None]", self._cache.get(key))
+        data = cast("list[EpisodeRawData] | None", self._cache.get(key))
         if data is None or refresh_cache:
             path = f"series/{tvdb_id}/episodes/{season_type}"
             full_data = cast("FullRawData", self.get(path)["data"])

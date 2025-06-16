@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import Any, Protocol, TypedDict  # upgrade: py3.9: remove Union
+from typing import Any, Protocol, TypedDict
 
 
 class AbstractCache(Protocol):

@@ -28,9 +28,9 @@ classifiers = [
     "Intended Audience :: Developers",
 ]
 
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 dependencies = [
-    "dj_settings~=6.0",
+    "dj_settings~=8.0",
     "pathurl~=0.7",
     "pyutilkit~=0.10",
     "requests~=2.0",
@@ -44,30 +44,30 @@ documentation = "https://tvdb-api-client.readthedocs.io/en/stable/"
 [dependency-groups]
 dev = [
     "ipdb~=0.13",
-    "ipython~=8.18",
+    "ipython~=8.37",
     { include-group = "lint" },
     { include-group = "test" },
     { include-group = "docs" },
 ]
 lint = [
-    "mypy~=1.15",
-    "ruff~=0.9",
+    "mypy~=1.16",
+    "ruff~=0.12",
     "types-requests~=2.0",
     { include-group = "test_core" },
 ]
 test = [
-    "pytest-cov~=6.0",
+    "pytest-cov~=6.2",
     { include-group = "test_core" },
 ]
 test_core = [
-    "pytest~=8.3",
+    "pytest~=8.4",
 ]
 docs = [
     "mkdocs~=1.6",
     "mkdocs-material~=9.6",
     "mkdocs-material-extensions~=1.3",
     "pygments~=2.19",
-    "pymdown-extensions~=10.14",
+    "pymdown-extensions~=10.15",
 ]
 
 [tool.mypy]
@@ -102,7 +102,7 @@ disallow_any_decorated = false # mock.MagicMock is Any
 src = [
     "src",
 ]
-target-version = "py39"
+target-version = "py310"
 
 [tool.ruff.lint]
 select = [
