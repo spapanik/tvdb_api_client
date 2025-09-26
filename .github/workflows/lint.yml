@@ -47,8 +47,4 @@ jobs:
           yam install
       - name: Lint the project
         run: |
-          yam -e lint
-      - name: Run mypy
-        run: |
-          uv pip install mypy
-          mypy .
+          yam -e ci-lint
