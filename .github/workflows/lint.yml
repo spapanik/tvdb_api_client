@@ -28,6 +28,7 @@ jobs:
           - "3.11"
           - "3.12"
           - "3.13"
+          - "3.14"
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v5
@@ -47,8 +48,4 @@ jobs:
           yam install
       - name: Lint the project
         run: |
-          yam -e lint
-      - name: Run mypy
-        run: |
-          uv pip install mypy
-          mypy .
+          yam -e ci-lint

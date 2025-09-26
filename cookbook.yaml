@@ -38,6 +38,14 @@ lint:
     - ${RUNNER} uv lock --check
     - ${RUNNER} ty check .
 
+ci-lint:
+  phony: true
+  requires:
+    - lint
+  commands:
+    # Keep mypy for CI/CD
+    - ${RUNNER} mypy .
+
 tests:
   phony: true
   requires:

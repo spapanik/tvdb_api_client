@@ -27,9 +27,9 @@ def test_cache_set() -> None:
     new=mock.MagicMock(return_value=None),
 )
 def test_client_init() -> None:
-    with pytest.raises(ValueError, match="API Key is required."):
+    with pytest.raises(ValueError, match=r"API Key is required\."):
         TheTVDBClient()
-    with pytest.raises(ValueError, match="API Key is required."):
+    with pytest.raises(ValueError, match=r"API Key is required\."):
         TheTVDBClient(pin="1234")
     TheTVDBClient(api_key="1234")
     TheTVDBClient(api_key="1234", pin="1234")
