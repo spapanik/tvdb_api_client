@@ -10,7 +10,7 @@ build:
   requires:
     - clean
   commands:
-    - ${RUNNER} p build
+    - uv build
 
 install:
   phony: true

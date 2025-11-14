@@ -39,7 +39,6 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install cli tools
         run: |
-          uv tool install phosphorus
           uv tool install yamk
       - name: Build the project
         run: |
