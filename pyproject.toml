@@ -1,14 +1,12 @@
 [build-system]
 requires = [
-    "phosphorus>=0.10",
+    "uv_build>=0.9.21,<0.10.0",
 ]
-build-backend = "phosphorus.construction.api"
+build-backend = "uv_build"
 
 [project]
 name = "tvdb_api_client"
-dynamic = [
-    "version",
-]
+version = "0.7.0"
 
 authors = [
     { name = "Stephanos Kuma", email = "stephanos@kuma.ai" },
@@ -53,9 +51,9 @@ dev = [
     { include-group = "docs" },
 ]
 lint = [
-    "mypy~=1.18",  # Keep mypy for CI/CD
-    "ty~=0.0.1a21",
-    "ruff~=0.13",
+    "mypy~=1.19",  # Keep mypy for CI/CD
+    "ruff~=0.14",
+    "ty~=0.0.9",
     "types-requests~=2.0",
     { include-group = "test_core" },
 ]
@@ -73,9 +71,6 @@ docs = [
     "pygments~=2.19",
     "pymdown-extensions~=10.15",
 ]
-
-[tool.phosphorus.dynamic.version]
-file = "src/tvdb_api_client/__version__.py"
 
 [tool.mypy]
 # Keep mypy for CI/CD
