@@ -10,115 +10,138 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 - Fixed missing episodes after the first 500 ones
 
-### Changed
+### Removed
 
-- Dropped support for python 3.9
+- Removed support for Python 3.9
+
+### Security
+
+- Updated `requests` to fix a security vulnerability (versions <2.32.4 were affected)
 
 ## [0.7.0] - 2025-02-01
 
 ### Added
 
-- Added python 3.11 support
-- Added python 3.12 support
-- Added python 3.13 support
-
-### Removed
-
-- Dropped support for TVDB APIv3
-- Drop python 3.7 support
-- Drop python 3.8 support
+- Added support for Python 3.11
+- Added support for Python 3.12
+- Added support for Python 3.13
+- Exposed the `get` method for direct API access
 
 ### Changed
 
-- The API Key and PIN can now be passed as env vars or from a file
+- The API key and PIN can now be passed as environment variables or from a file
+- Changed the license to BSD 3-Clause
+
+### Removed
+
+- Removed support for TVDB API v3
+- Removed support for Python 3.7
+- Removed support for Python 3.8
 
 ## [0.6.0] - 2022-03-08
 
 ### Added
 
-- Added a method to get series by the tvdb id (V4 API)
-- Added a method to get all episodes from a series by the tvdb id of
-  the series (V4 API)
+- Added `TVDBClientV4` with methods to get series and episodes using the V4 API
+- Added `Series` and `Episode` dataclasses for V4 API responses
 
 ### Removed
 
-- Removed changelog from the published wheel
+- Removed the changelog from the published wheel
 
 ## [0.5.0] - 2022-01-05
 
 ### Added
 
-- Added python310 support
+- Added support for Python 3.10
+- Added type annotations to the public API
+- Added `py.typed` marker for PEP 561 compatibility
 
 ### Removed
 
-- Dropped python36 support
+- Removed support for Python 3.6
 
 ## [0.4.2] - 2021-02-14
 
 ### Added
 
-- Allow setting the language
+- Added support for setting the language
 
 ## [0.4.1] - 2020-09-30
 
 ### Fixed
 
-- Add method get_episodes_by_series back to the class
+- Fixed a bug in `get_episodes_by_series`
+
+### Changed
+
+- Changed the license to LGPLv3
 
 ## [0.4.0] - 2020-04-23
 
 ### Added
 
-- Add caching to all methods
+- Added caching to all public methods
+- Added a `refresh_cache` parameter to all public methods to force cache invalidation
 
 ## [0.3.0] - 2020-01-25
 
 ### Added
 
-- Dummy cache when no cache specified
+- Added a dummy cache when no cache is specified
 
 ## [0.2.0] - 2019-05-27
 
-### Added
+### Changed
 
-- changelog.md
-- Method to get TV series by TVDB id
-- Method to get TV series by IMDb id
-- Method to find identifying info for a TV series by its name
-- Method to get episodes by TV series using its TVDB id
+- Renamed `get_tvdb_id` to `get_series_by_id`
+- Renamed `get_imdb_id` to `get_series_by_imdb_id`
+- Renamed `get_episodes` to `get_episodes_by_series`
+- Removed the ability to set the name via the secrets file
 
 ## [0.1.7] - 2019-05-20
 
-### Added
+Maintenance release, no user-facing changes.
 
 ## [0.1.6] - 2018-10-06
 
-### Added
+Maintenance release, no user-facing changes.
 
 ## [0.1.5] - 2018-10-06
 
-### Added
+Maintenance release, no user-facing changes.
 
 ## [0.1.3] - 2018-10-06
 
-### Added
+Maintenance release, no user-facing changes.
 
 ## [0.1.2] - 2018-10-06
 
-### Added
+### Changed
+
+- Set Python 3.6 as the minimum required Python version
 
 ## [0.1.0] - 2018-02-24
 
 ### Added
 
+- Added support for storing API credentials in a file
+
+### Changed
+
+- Changed the client initialization to use keyword arguments
+
 ## [0.0.2] - 2017-08-06
 
-### Added
+Maintenance release, no user-facing changes.
 
 ## [0.0.1] - 2017-08-05
 
 ### Added
+
+- Initial release with `TVDBClient` featuring methods to get a series by TVDB ID,
+  get a series by IMDb ID, find identifying info for a series by name, and get
+  episodes for a series
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
