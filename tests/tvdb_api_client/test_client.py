@@ -13,7 +13,11 @@ from pyutilkit.date_utils import now
 from tvdb_api_client.client import TheTVDBClient, _Cache
 
 if TYPE_CHECKING:
-    from tvdb_api_client.lib.type_defs import EpisodeRawData, SeriesRawData
+    from tvdb_api_client.lib.type_defs import (
+        CleanedEpisodeData,
+        EpisodeRawData,
+        SeriesRawData,
+    )
 
 
 def test_cache_set() -> None:
@@ -67,11 +71,16 @@ def test_get_raw_episodes_by_series(
     the_tvdb_client: TheTVDBClient, raw_episode_data: EpisodeRawData
 ) -> None:
     with mock.patch.object(
-        TheTVDBClient, "get", return_value={"data": {"episodes": [raw_episode_data]}}
+        TheTVDBClient,
+        "get",
+        return_value={
+            "data": {"episodes": [raw_episode_data]},
+            "links": {"next": None, "prev": None},
+        },
     ):
         raw_data = the_tvdb_client.get_raw_episodes_by_series(79509)
     raw_data_from_cache = the_tvdb_client.get_raw_episodes_by_series(79509)
-    assert raw_data[0] == raw_episode_data
+    assert raw_data["episodes"][0] == raw_episode_data
     assert raw_data == raw_data_from_cache
 
 
@@ -79,10 +88,29 @@ def test_get_episodes_by_series(
     the_tvdb_client: TheTVDBClient, raw_episode_data: EpisodeRawData
 ) -> None:
     with mock.patch.object(
-        TheTVDBClient, "get", return_value={"data": {"episodes": [raw_episode_data]}}
+        TheTVDBClient,
+        "get",
+        return_value={
+            "data": {"episodes": [raw_episode_data]},
+            "links": {"next": None, "prev": None},
+        },
     ):
         episodes = the_tvdb_client.get_episodes_by_series(79509)
     assert episodes[0].id == 314779
+
+
+def test_get_episodes_by_series_paginated(
+    the_tvdb_client: TheTVDBClient, raw_episode_data: EpisodeRawData
+) -> None:
+    pages: list[CleanedEpisodeData] = [
+        {"episodes": [raw_episode_data], "has_next_page": True},
+        {"episodes": [raw_episode_data], "has_next_page": False},
+    ]
+    with mock.patch.object(
+        TheTVDBClient, "get_raw_episodes_by_series", side_effect=pages
+    ):
+        episodes = the_tvdb_client.get_episodes_by_series(79509)
+    assert len(episodes) == 2
 
 
 @mock.patch(

@@ -65,6 +65,21 @@ class EpisodeRawData(TypedDict):
     year: str
 
 
-class FullRawData(TypedDict):
+class LinksRawData(TypedDict):
+    next: str | None
+    prev: str | None
+
+
+class _FullRawData(TypedDict):
     series: SeriesRawData
     episodes: list[EpisodeRawData]
+
+
+class CleanedEpisodeData(TypedDict):
+    episodes: list[EpisodeRawData]
+    has_next_page: bool
+
+
+class FullEpisodeRawData(TypedDict):
+    data: _FullRawData
+    links: LinksRawData

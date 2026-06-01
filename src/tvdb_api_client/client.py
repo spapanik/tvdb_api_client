@@ -15,8 +15,8 @@ from tvdb_api_client.models import Episode, Series
 if TYPE_CHECKING:
     from tvdb_api_client.lib.type_defs import (
         AbstractCache,
-        EpisodeRawData,
-        FullRawData,
+        CleanedEpisodeData,
+        FullEpisodeRawData,
         SeriesRawData,
     )
 
@@ -138,23 +138,40 @@ class TheTVDBClient:
         return Series.from_raw_data(raw_data)
 
     def get_raw_episodes_by_series(
-        self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
-    ) -> list[EpisodeRawData]:
+        self,
+        tvdb_id: int,
+        season_type: str = "default",
+        page: int = 0,
+        *,
+        refresh_cache: bool = False,
+    ) -> CleanedEpisodeData:
         """Get all the episodes for a TV series as returned by the TVDB."""
-        key = f"get_episodes_by_series::tvdb_id:{tvdb_id}"
-        data = cast("list[EpisodeRawData] | None", self._cache.get(key))
+        key = f"get_episodes_by_series::tvdb_id:{tvdb_id}:{page}"
+        data = cast("CleanedEpisodeData | None", self._cache.get(key))
         if data is None or refresh_cache:
-            path = f"series/{tvdb_id}/episodes/{season_type}"
-            full_data = cast("FullRawData", self.get(path)["data"])
-            data = full_data["episodes"]
+            path = f"series/{tvdb_id}/episodes/{season_type}?page={page}"
+            all_data = cast("FullEpisodeRawData", self.get(path))
+            episodes = all_data["data"]["episodes"]
+            data = {
+                "episodes": episodes,
+                "has_next_page": all_data["links"]["next"] is not None,
+            }
             self._cache.set(key, data)
-        return data
+        # Redundant cast to satisfy mypy & ty compatibility
+        return cast("CleanedEpisodeData", data)  # type: ignore[redundant-cast]
 
     def get_episodes_by_series(
         self, tvdb_id: int, season_type: str = "default", *, refresh_cache: bool = False
     ) -> list[Episode]:
         """Get all the episodes for a TV series."""
-        raw_data = self.get_raw_episodes_by_series(
-            tvdb_id, season_type, refresh_cache=refresh_cache
-        )
-        return [Episode.from_raw_data(episode_info) for episode_info in raw_data]
+        next_page = True
+        page = 0
+        data = []
+        while next_page:
+            raw_data = self.get_raw_episodes_by_series(
+                tvdb_id, season_type, refresh_cache=refresh_cache, page=page
+            )
+            data.extend(raw_data["episodes"])
+            next_page = raw_data["has_next_page"]
+            page += 1
+        return [Episode.from_raw_data(episode_info) for episode_info in data]

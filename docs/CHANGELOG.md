@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+### Fixed
+
+- Fixed missing episodes after the first 500 ones
+
 ### Changed
 
 - Dropped support for python 3.9
