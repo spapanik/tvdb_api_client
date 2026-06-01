@@ -1,6 +1,6 @@
 # Installation
 
-# Using uv
+## Using uv
 
 [uv] is an extremely fast Python package installer.
 You can use it to install `tvdb_api_client` and try it out:
@@ -9,7 +9,7 @@ You can use it to install `tvdb_api_client` and try it out:
 $ uv pip install tvdb_api_client
 ```
 
-# Using a PEP 621 compliant build backend
+## Using a PEP 621 compliant build backend
 
 [PEP 621] is the standard way to store your dependencies in a `pyproject.toml` file.
 You can add `tvdb_api_client` to your `pyproject.toml` file:

@@ -9,7 +9,6 @@ nav:
   - About:
       - License: LICENSE.md
       - Changelog: CHANGELOG.md
-      - Code of Conduct: CODE_OF_CONDUCT.md
 
 markdown_extensions:
   - pymdownx.highlight:

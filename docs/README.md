@@ -17,32 +17,34 @@
 
 ### Installation
 
-The easiest way is to use [poetry](https://python-poetry.org/) to manage
-your dependencies and add _tvdb_api_client_ to them.
+[uv] is an extremely fast Python package installer.
+You can use it to install `tvdb_api_client` and try it out:
 
-```toml
-[tool.poetry.dependencies]
-tvdb_api_client = "*"
+```console
+$ uv pip install tvdb_api_client
 ```
 
 ### Usage
 
-Initialise the client (example using the django cache):
+Initialise the client and fetch data:
 
 ```python
-from django.core.cache import cache
-from tvdb_api_client import TVDBClient
+from tvdb_api_client import TheTVDBClient
 
-client = TVDBClient("username", "user_key", "api_key", cache)
+client = TheTVDBClient(api_key="your-api-key")
+
+# Get a TV series by its TVDB id
+series = client.get_series_by_id(81189)  # Breaking Bad
+
+# Get all episodes for a TV series
+episodes = client.get_episodes_by_series(81189)
 ```
 
-Once the client has been initialised, you can use it to get the
-following info:
+Once the client has been initialised, you can use it to:
 
-- get TV series by TVDB id
-- get TV series by IMDb id
-- find identifying info for a TV series by its name
-- get episodes by TV series using its TVDB id
+- get a TV series by its TVDB id
+- get all episodes for a TV series by its TVDB id
+- access raw API responses for custom processing
 
 ## Links
 
@@ -69,5 +71,6 @@ following info:
 [yam_url]: https://github.com/spapanik/yamk
 [ruff_badge]: https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/charliermarsh/ruff/main/assets/badge/v1.json
 [ruff_url]: https://github.com/charliermarsh/ruff
+[uv]: https://github.com/astral-sh/uv
 [Documentation]: https://tvdb-api-client.readthedocs.io/en/stable/
 [Changelog]: https://tvdb-api-client.readthedocs.io/en/stable/CHANGELOG/
