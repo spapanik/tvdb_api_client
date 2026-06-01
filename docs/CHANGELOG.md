@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog], and this project adheres to [Semantic
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-06-01
+
 ### Fixed
 
 - Fixed missing episodes after the first 500 ones
@@ -145,7 +147,8 @@ Maintenance release, no user-facing changes.
 
 [Keep a Changelog]: https://keepachangelog.com/en/1.1.0/
 [Semantic Versioning]: https://semver.org/spec/v2.0.0.html
-[Unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.7.0...master
+[Unreleased]: https://github.com/spapanik/tvdb_api_client/compare/v0.8.0...master
+[0.8.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/spapanik/tvdb_api_client/compare/v0.4.2...v0.5.0
