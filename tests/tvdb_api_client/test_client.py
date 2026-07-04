@@ -199,5 +199,5 @@ def test_get_with_cache() -> None:
     timestamp = now().timestamp() + 600
     payload = urlsafe_b64encode(json.dumps({"exp": timestamp}).encode()).decode()
     token = f"1234.{payload}.1234"
-    client._cache.set("tvdb_v4_token", token)  # noqa: SLF001
+    client._cache.set("tvdb_v4_token", token)
     client.get("series/79509")
