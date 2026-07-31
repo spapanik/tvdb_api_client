@@ -68,9 +68,9 @@ Fetches a TV series by its TVDB id and returns a parsed `Series` object.
 
 ```python
 series = client.get_series_by_id(81189)
-print(series.name)          # "Breaking Bad"
-print(series.status.name)   # "Ended"
-print(series.first_aired)   # datetime.date(2008, 1, 20)
+print(series.name)  # "Breaking Bad"
+print(series.status.name)  # "Ended"
+print(series.first_aired)  # datetime.date(2008, 1, 20)
 ```
 
 ### `get_raw_series_by_id`

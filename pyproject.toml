@@ -1,6 +1,6 @@
 [build-system]
 requires = [
-    "uv_build>=0.11.0,<0.12.0",
+    "uv_build>=0.12.0,<0.13",
 ]
 build-backend = "uv_build"
 
@@ -27,11 +27,11 @@ classifiers = [
     "Intended Audience :: Developers",
 ]
 
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-    "dj_settings~=8.0",
+    "dj_settings~=9.0",
     "pathurl~=0.8",
-    "pyutilkit~=0.11",
+    "pyutilkit~=0.13",
     "requests>=2.34.2,<3.0",
 ]
 
@@ -43,7 +43,7 @@ documentation = "https://tvdb-api-client.readthedocs.io/en/stable/"
 [dependency-groups]
 dev = [
     "ipdb~=0.13",
-    "ipython~=8.39",
+    "ipython~=9.15",
     "ptpython~=3.0",
     { include-group = "lint" },
     { include-group = "test" },
@@ -51,10 +51,9 @@ dev = [
 ]
 lint = [
     "mypy~=2.1",                     # Keep mypy for CI/CD
-    "ruff~=0.15",
-    "ty~=0.0.49",
+    "ruff~=0.16",
+    "ty~=0.0.63",
     "types-requests~=2.33",
-    "typing-extensions~=4.15",       # upgrade: py3.10: use typing module
     { include-group = "test_core" },
 ]
 test = [
@@ -106,7 +105,7 @@ disallow_any_decorated = false # mock.MagicMock is Any
 src = [
     "src",
 ]
-target-version = "py310"
+target-version = "py311"
 
 [tool.ruff.lint]
 select = [
@@ -114,6 +113,7 @@ select = [
 ]
 ignore = [
     "C901",   # Adding a limit to complexity is too arbitrary
+    "CPY001", # Use only a project copyright
     "COM812", # Avoid conflicts with the formatter
     "D10",    # Not everything needs a docstring
     "D203",   # Prefer `no-blank-line-before-class` (D211)

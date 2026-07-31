@@ -27,7 +27,7 @@ def test_cache_set() -> None:
 
 
 @mock.patch(
-    "tvdb_api_client.client.get_setting",
+    "tvdb_api_client.client.ConfigParser.get_setting",
     new=mock.MagicMock(return_value=None),
 )
 def test_client_init() -> None:

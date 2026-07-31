@@ -6,7 +6,7 @@ from http import HTTPStatus
 from typing import TYPE_CHECKING, cast
 
 import requests
-from dj_settings import get_setting
+from dj_settings import ConfigParser
 from pyutilkit.date_utils import now
 
 from tvdb_api_client.constants import BASE_API_URL
@@ -46,11 +46,8 @@ class TheTVDBClient:
         sections = ["client"]
 
         if api_key is None:
-            api_key = get_setting(
-                "api_key",
-                filename=filename,
-                sections=sections,
-                use_env="TVDB_API_KEY_V4",
+            api_key = ConfigParser(filename).get_setting(
+                "api_key", sections=sections, use_env="TVDB_API_KEY_V4"
             )
         if api_key is None:
             msg = "API Key is required."  # type: ignore[unreachable]
@@ -58,8 +55,8 @@ class TheTVDBClient:
         output = {"apikey": api_key}
 
         if pin is None:
-            pin = get_setting(
-                "pin", filename=filename, sections=sections, use_env="TVDB_PIN_V4"
+            pin = ConfigParser(filename).get_setting(
+                "pin", sections=sections, use_env="TVDB_PIN_V4"
             )
         if pin is not None:
             output["pin"] = pin
