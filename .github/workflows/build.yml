@@ -28,17 +28,14 @@ jobs:
           - "3.12"
           - "3.13"
           - "3.14"
+          - "3.15"
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v7.0.0
-      - name: Install the latest version of uv
-        uses: astral-sh/setup-uv@v8.2.0
+        uses: actions/checkout@v7.0.1
+      - name: Set up yamk
+        uses: ./.github/actions/setup
         with:
-          enable-cache: false
           python-version: ${{ matrix.python-version }}
-      - name: Install cli tools
-        run: |
-          uv tool install yamk
       - name: Build the project
         run: |
           yam -e build
